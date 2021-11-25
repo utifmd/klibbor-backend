@@ -1,0 +1,11 @@
+version: '3.5'
+
+services:
+  who-knows-backend:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: kotlin
+      POSTGRES_USER: kotlin
+      POSTGRES_DB: who_knows
