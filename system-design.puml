@@ -1,0 +1,17 @@
+@startuml
+actor "User" as user
+
+node "WhoKnows Backend" {
+    component "Controller" as controller
+    component "Service" as service
+    component "Repository" as repos
+}
+
+database "Postgresql" as database
+
+user <--> controller
+controller <--> service
+service <--> repos
+repos <--> database
+
+@enduml
