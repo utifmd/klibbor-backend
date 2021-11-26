@@ -7,26 +7,27 @@ import javax.persistence.*
 @Table(name = "users")
 data class User(
     @Id
-    val userId: String,
+    @Column(name = "userId")
+    val id: String,
 
     @Column(name = "fullName")
-    val fullName: String,
+    var fullName: String,
 
     @Column(name = "email")
-    val email: String,
+    var email: String,
 
     @Column(name = "phone")
-    val phone: Int,
+    var phone: String,
 
     @Column(name = "username")
-    val username: String,
+    var username: String,
 
     @Column(name = "password")
-    val password: String,
+    var password: String,
 
     @Column(name = "createdAt")
-    val createdAt: Date,
+    var createdAt: Date,
 
     @Column(name = "updatedAt")
-    val updatedAt: Date?
+    var updatedAt: Date?
 )

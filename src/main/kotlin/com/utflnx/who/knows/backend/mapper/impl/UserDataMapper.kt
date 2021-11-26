@@ -4,17 +4,19 @@ import com.utflnx.who.knows.backend.entity.User
 import com.utflnx.who.knows.backend.mapper.IUserDataMapper
 import com.utflnx.who.knows.backend.model.user.CreateRequest
 import com.utflnx.who.knows.backend.model.user.Response
+import com.utflnx.who.knows.backend.model.user.UpdateRequest
 import com.utflnx.who.knows.backend.validation.impl.DataValidator
 import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
 class UserDataMapper(val dataValidator: DataValidator): IUserDataMapper {
+
     override fun toUser(createRequest: CreateRequest): User {
         dataValidator.validate(createRequest)
 
         return User(
-            userId = createRequest.userId!!,
+            id = createRequest.userId!!,
             fullName = createRequest.fullName!!,
             email = createRequest.email!!,
             phone = createRequest.phone!!,
@@ -24,16 +26,32 @@ class UserDataMapper(val dataValidator: DataValidator): IUserDataMapper {
             updatedAt = null
         )
     }
+
     override fun toResponse(user: User): Response{
         return Response(
-            userId = user.userId,
+            userId = user.id,
             fullName = user.fullName,
             email = user.email,
             phone = user.phone,
             username = user.username,
             password = user.password,
-            createdAt = Date(),
-            updatedAt = null
+            createdAt = user.createdAt,
+            updatedAt = user.updatedAt
         )
+    }
+
+    override fun toUser(current: User, updateRequest: UpdateRequest): User {
+        dataValidator.validate(updateRequest)
+
+        current.apply {
+            fullName = updateRequest.fullName!!
+            email = updateRequest.email!!
+            phone = updateRequest.phone!!
+            username = updateRequest.username!!
+            password = updateRequest.password!!
+            updatedAt = Date()
+        }
+
+        return current
     }
 }

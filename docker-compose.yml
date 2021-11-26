@@ -2,6 +2,7 @@ version: '3.5'
 
 services:
   who-knows-backend:
+    container_name: who_knows_backend
     image: postgres:latest
     ports:
       - 5432:5432

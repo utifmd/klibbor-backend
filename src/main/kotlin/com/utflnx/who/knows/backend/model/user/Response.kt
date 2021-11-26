@@ -6,7 +6,7 @@ data class Response(
     val userId: String,
     val fullName: String,
     val email: String,
-    val phone: Int,
+    val phone: String,
     val username: String,
     val password: String,
     val createdAt: Date,

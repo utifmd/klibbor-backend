@@ -2,10 +2,7 @@ package com.utflnx.who.knows.backend.model.user
 
 import javax.validation.constraints.NotBlank
 
-data class CreateRequest(
-    @field:NotBlank
-    val userId: String?,
-
+data class UpdateRequest(
     @field:NotBlank
     val fullName: String?,
 
