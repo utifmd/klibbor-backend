@@ -3,6 +3,7 @@ package com.utflnx.who.knows.backend.controller.impl
 import com.utflnx.who.knows.backend.controller.IUserController
 import com.utflnx.who.knows.backend.model.WebResponse
 import com.utflnx.who.knows.backend.model.user.CreateRequest
+import com.utflnx.who.knows.backend.model.user.ListRequest
 import com.utflnx.who.knows.backend.model.user.Response
 import com.utflnx.who.knows.backend.model.user.UpdateRequest
 import com.utflnx.who.knows.backend.service.IUserService
@@ -63,6 +64,20 @@ class UserController(val service: IUserService): IUserController {
             code = 200,
             status = "OK",
             data = id
+        )
+    }
+
+    @GetMapping(value = [ "/api/users" ],
+        produces = ["application/json"])
+    override fun listUser(
+        @RequestParam(value = "page", defaultValue = "0") page: Int,
+        @RequestParam(value = "size", defaultValue = "10") size: Int): WebResponse<List<Response>> {
+        val users = service.list(ListRequest(page, size))
+
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = users
         )
     }
 }

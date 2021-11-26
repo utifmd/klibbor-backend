@@ -2,14 +2,17 @@ package com.utflnx.who.knows.backend.service.impl
 
 import com.utflnx.who.knows.backend.mapper.IUserDataMapper
 import com.utflnx.who.knows.backend.model.user.CreateRequest
+import com.utflnx.who.knows.backend.model.user.ListRequest
 import com.utflnx.who.knows.backend.model.user.Response
 import com.utflnx.who.knows.backend.model.user.UpdateRequest
 import com.utflnx.who.knows.backend.repository.IUserRepository
 import com.utflnx.who.knows.backend.service.IUserService
 import com.utflnx.who.knows.backend.validation.NotFoundException
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.*
+import java.util.stream.Collectors
 
 @Service
 class UserService(
@@ -48,5 +51,12 @@ class UserService(
             repository.deleteById(deleteRequest)
 
         else throw NotFoundException()
+    }
+
+    override fun list(listRequest: ListRequest): List<Response> {
+        val page = repository.findAll(PageRequest.of(listRequest.page, listRequest.size))
+        val users = page.get().collect(Collectors.toList())
+
+        return users.map { mapper.toResponse(it) }
     }
 }

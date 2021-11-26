@@ -1,0 +1,38 @@
+# POST http://127.0.0.1:8080/api/users/
+# X-Api-Key: utif.pages.dev
+# Content-Type: application/json
+# Accept: application/json
+
+# {
+#   "userId": "A00012",
+#   "fullName": "Nyelip dua",
+#   "email": "dua@gmail.com",
+#   "phone": "+62-812-7534-0012",
+#   "username": "dua",
+#   "password": "12121212"
+# }
+
+# GET http://127.0.0.1:8080/api/users/A00011
+# X-Api-Key: utif.pages.dev
+# Accept: application/json
+
+# DELETE http://127.0.0.1:8080/api/users/A00004
+# X-Api-Key: utif.pages.dev
+# Accept: application/json
+
+# GET http://127.0.0.1:8080/api/users?size=5&page=2
+# X-Api-Key: utif.pages.dev
+# Accept: application/json
+
+# PUT http://127.0.0.1:8080/api/users/A00011
+# X-Api-Key: utif.pages.dev
+# Accept: application/json
+# Content-Type: application/json
+
+# {
+#     "fullName": "Nyelip satu",
+#       "email": "satu@gmail.com",
+#       "phone": "+62-812-7534-0011",
+#       "username": "satu",
+#       "password": "12121212"
+# }
