@@ -36,13 +36,10 @@ class UserService(
 
     override fun update(id: String, updateRequest: UpdateRequest): Response {
         val user = repository.findByIdOrNull(id) ?: throw NotFoundException()
-
-        val updatedUser = mapper.toUser(
-            current = user,
-            updateRequest = updateRequest
-        )
+        val updatedUser = mapper.toUser(user, updateRequest)
 
         repository.save(updatedUser)
+
         return mapper.toResponse(updatedUser)
     }
 
