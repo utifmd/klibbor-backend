@@ -2,7 +2,7 @@ package com.utflnx.who.knows.backend.service.impl
 
 import com.utflnx.who.knows.backend.mapper.IUserDataMapper
 import com.utflnx.who.knows.backend.model.user.CreateRequest
-import com.utflnx.who.knows.backend.model.user.ListRequest
+import com.utflnx.who.knows.backend.model.ListRequest
 import com.utflnx.who.knows.backend.model.user.Response
 import com.utflnx.who.knows.backend.model.user.UpdateRequest
 import com.utflnx.who.knows.backend.repository.IUserRepository

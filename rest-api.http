@@ -6,35 +6,39 @@
 # Accept: application/json
 
 # {
-#   "roomId": "B00003",
-#   "userId": "A00003",
-#   "minute": "160",
-#   "title": "Kelas Belajar Geograpghy",
-#   "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Id aliquid dignissimos facere reiciendis ipsam praesentium cupiditate magnam facilis minus, ullam ex beatae sequi! Cupiditate ex pariatur aliquam, animi iure similique.",
-#   "expired": false
+#   "roomId": "B11222",
+#   "userId": "A00006",
+#   "minute": "3000",
+#   "title": "Kelas Belajar B11222 Psychology",
+#   "description": "Lorem B11222 ipsum dolor, sit amet consectetur adipisicing elit. Id aliquid dignissimos facere reiciendis ipsam praesentium cupiditate magnam facilis minus, ullam ex beatae sequi! Cupiditate ex pariatur aliquam, animi iure similique.",
+#   "expired": true
 # }
-
 
 # GET http://127.0.0.1:8080/api/rooms/B00003
 # X-Api-Key: utif.pages.dev
 # Accept: application/json
 
-PUT http://127.0.0.1:8080/api/rooms/B00003
-X-Api-Key: utif.pages.dev
-Content-Type: application/json
-Accept: application/json
+# PUT http://127.0.0.1:8080/api/rooms/B00003
+# X-Api-Key: utif.pages.dev
+# Content-Type: application/json
+# Accept: application/json
 
-{
-  "minute": "120",
-  "title": "Kelas Belajar Geography",
-  "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Id aliquid dignissimos facere reiciendis ipsam praesentium cupiditate magnam facilis minus, ullam ex beatae sequi! Cupiditate ex pariatur aliquam, animi iure similique.",
-  "expired": true
-}
+# {
+#   "minute": "120",
+#   "title": "Kelas Belajar Geography",
+#   "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Id aliquid dignissimos facere reiciendis ipsam praesentium cupiditate magnam facilis minus, ullam ex beatae sequi! Cupiditate ex pariatur aliquam, animi iure similique.",
+#   "expired": true
+# }
+
+# DELETE http://127.0.0.1:8080/api/rooms/B11222
+# X-Api-Key: utif.pages.dev
+# Content-Type: application/json
+# Accept: application/json
 
 # GET http://127.0.0.1:8080/api/rooms
-# # GET http://127.0.0.1:8080/api/rooms?size=3&page=0
-# X-Api-Key: utif.pages.dev
-# Accept: application/json
+GET http://127.0.0.1:8080/api/rooms?size=3&page=0
+X-Api-Key: utif.pages.dev
+Accept: application/json
 
 # PUT http://127.0.0.1:8080/api/rooms/A00011
 # X-Api-Key: utif.pages.dev

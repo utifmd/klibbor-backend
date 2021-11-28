@@ -1,20 +1,17 @@
 package com.utflnx.who.knows.backend.controller.impl
 
-import com.utflnx.who.knows.backend.controller.IRoomController
+import com.utflnx.who.knows.backend.controller.IQuizController
 import com.utflnx.who.knows.backend.model.ListRequest
 import com.utflnx.who.knows.backend.model.WebResponse
-import com.utflnx.who.knows.backend.model.room.CreateRequest
-import com.utflnx.who.knows.backend.model.room.Response
-import com.utflnx.who.knows.backend.model.room.UpdateRequest
-import com.utflnx.who.knows.backend.service.IRoomService
+import com.utflnx.who.knows.backend.model.quiz.CreateRequest
+import com.utflnx.who.knows.backend.model.quiz.Response
+import com.utflnx.who.knows.backend.model.quiz.UpdateRequest
+import com.utflnx.who.knows.backend.service.IQuizService
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class RoomController(val service: IRoomService): IRoomController {
-
-    @PostMapping(value = ["/api/rooms"],
-        produces = ["application/json"],
-        consumes = ["application/json"])
+class QuizController(val service: IQuizService): IQuizController {
+    @PostMapping(value = ["/api/questions"], produces = ["application/json"], consumes = ["application/json"])
     override fun createRoom(
         @RequestBody createRequest: CreateRequest): WebResponse<Response> {
         val response = service.create(createRequest)
@@ -26,10 +23,9 @@ class RoomController(val service: IRoomService): IRoomController {
         )
     }
 
-    @GetMapping(value = ["/api/rooms/{roomId}"],
-        produces = ["application/json"])
+    @GetMapping(value = ["/api/questions/{quizId}"], produces = ["application/json"])
     override fun readRoom(
-        @PathVariable("roomId") readRequest: String): WebResponse<Response> {
+        @PathVariable("quizId") readRequest: String): WebResponse<Response> {
         val response = service.read(readRequest)
 
         return WebResponse(
@@ -39,11 +35,9 @@ class RoomController(val service: IRoomService): IRoomController {
         )
     }
 
-    @PutMapping(value = ["/api/rooms/{roomId}"],
-        produces = ["application/json"],
-        consumes = ["application/json"])
+    @PutMapping(value = ["/api/questions/{quizId}"], produces = ["application/json"], consumes = ["application/json"])
     override fun updateRoom(
-        @PathVariable("roomId") id: String,
+        @PathVariable("quizId") id: String,
         @RequestBody updateRequest: UpdateRequest): WebResponse<Response> {
         val response = service.update(id, updateRequest)
 
@@ -54,9 +48,8 @@ class RoomController(val service: IRoomService): IRoomController {
         )
     }
 
-    @DeleteMapping(value = ["/api/rooms/{roomId}"], produces = ["application/json"])
-    override fun deleteRoom(
-        @PathVariable("roomId") id: String): WebResponse<String> {
+    @DeleteMapping(value = ["/api/questions/{quizId}"], produces = ["application/json"])
+    override fun deleteRoom(id: String): WebResponse<String> {
         service.delete(id)
 
         return WebResponse(
@@ -66,7 +59,7 @@ class RoomController(val service: IRoomService): IRoomController {
         )
     }
 
-    @GetMapping(value = ["/api/rooms"], produces = ["application/json"])
+    @GetMapping(value = ["/api/questions"], produces = ["application/json"])
     override fun listRoom(
         @RequestParam(value = "page", defaultValue = "0") page: Int,
         @RequestParam(value = "size", defaultValue = "5") size: Int): WebResponse<List<Response>> {
@@ -78,4 +71,5 @@ class RoomController(val service: IRoomService): IRoomController {
             data = response
         )
     }
+
 }

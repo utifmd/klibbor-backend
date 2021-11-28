@@ -1,7 +1,7 @@
 package com.utflnx.who.knows.backend.service
 
 import com.utflnx.who.knows.backend.model.user.CreateRequest
-import com.utflnx.who.knows.backend.model.user.ListRequest
+import com.utflnx.who.knows.backend.model.ListRequest
 import com.utflnx.who.knows.backend.model.user.Response
 import com.utflnx.who.knows.backend.model.user.UpdateRequest
 
