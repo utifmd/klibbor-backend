@@ -1,5 +1,6 @@
 package com.utflnx.who.knows.backend.model.user
 
+import com.utflnx.who.knows.backend.entity.Room
 import java.util.*
 
 data class Response(
@@ -10,5 +11,6 @@ data class Response(
     val username: String,
     val password: String,
     val createdAt: Date,
-    val updatedAt: Date?
+    val updatedAt: Date?,
+    val room: List<Room>?
 )

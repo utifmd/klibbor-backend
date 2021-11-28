@@ -1,16 +1,17 @@
 package com.utflnx.who.knows.backend.model.quiz
 
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 data class UpdateRequest(
 
-    @field:NotBlank
+    @field:NotNull
     val images: List<String>,
 
     @field:NotBlank
     val question: String,
 
-    @field:NotBlank
+    @field:NotNull
     val options: List<String>,
 
     @field:NotBlank

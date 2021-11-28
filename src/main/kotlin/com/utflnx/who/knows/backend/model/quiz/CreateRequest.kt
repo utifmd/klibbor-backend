@@ -1,6 +1,7 @@
 package com.utflnx.who.knows.backend.model.quiz
 
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 data class CreateRequest(
 
@@ -10,13 +11,13 @@ data class CreateRequest(
     @field:NotBlank
     val roomId: String?,
 
-    @field:NotBlank
+    @field:NotNull
     val images: List<String>?,
 
     @field:NotBlank
     val question: String?,
 
-    @field:NotBlank
+    @field:NotNull
     val options: List<String>?,
 
     @field:NotBlank

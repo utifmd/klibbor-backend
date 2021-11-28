@@ -13,7 +13,7 @@ data class Quiz(
 
     @Column(name = "roomId")
     var roomId: String,
-
+ 
     @Column(name = "images")
     @ElementCollection
     var images: List<String>,

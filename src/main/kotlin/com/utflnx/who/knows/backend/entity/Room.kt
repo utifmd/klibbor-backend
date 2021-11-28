@@ -1,10 +1,8 @@
 package com.utflnx.who.knows.backend.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "rooms")
@@ -33,4 +31,9 @@ data class Room(
 
     @Column(name = "updatedAt")
     var updatedAt: Date?
+//    ,
+//    @JoinColumn(name = "userId", insertable = false, updatable = false)
+//    @ManyToOne
+//    @JsonIgnore
+//    var user: User?
 )

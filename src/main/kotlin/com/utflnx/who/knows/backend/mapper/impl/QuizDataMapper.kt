@@ -52,7 +52,7 @@ class QuizDataMapper(val validator: IDataValidator): IQuizDataMapper {
             quiz.answer,
             quiz.createdBy,
             quiz.createdAt,
-            quiz.updatedAt ?: Date()
+            quiz.updatedAt
         )
     }
 }

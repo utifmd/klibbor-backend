@@ -1,18 +1,18 @@
 package com.utflnx.who.knows.backend.controller.impl
 
-import com.utflnx.who.knows.backend.controller.IQuizController
+import com.utflnx.who.knows.backend.controller.IParticipantController
 import com.utflnx.who.knows.backend.model.ListRequest
 import com.utflnx.who.knows.backend.model.WebResponse
-import com.utflnx.who.knows.backend.model.quiz.CreateRequest
-import com.utflnx.who.knows.backend.model.quiz.Response
-import com.utflnx.who.knows.backend.model.quiz.UpdateRequest
-import com.utflnx.who.knows.backend.service.IQuizService
+import com.utflnx.who.knows.backend.model.participant.CreateRequest
+import com.utflnx.who.knows.backend.model.participant.Response
+import com.utflnx.who.knows.backend.model.participant.UpdateRequest
+import com.utflnx.who.knows.backend.service.IParticipantService
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class QuizController(val service: IQuizService): IQuizController {
-    @PostMapping(value = ["/api/questions"], produces = ["application/json"], consumes = ["application/json"])
-    override fun createRoom(
+class ParticipantController(val service: IParticipantService): IParticipantController {
+    @PostMapping(value = ["/api/participants"], produces = ["application/json"], consumes = ["application/json"])
+    override fun createParticipant(
         @RequestBody createRequest: CreateRequest): WebResponse<Response> {
         val response = service.create(createRequest)
 
@@ -23,10 +23,10 @@ class QuizController(val service: IQuizService): IQuizController {
         )
     }
 
-    @GetMapping(value = ["/api/questions/{quizId}"], produces = ["application/json"])
-    override fun readRoom(
-        @PathVariable("quizId") readRequest: String): WebResponse<Response> {
-        val response = service.read(readRequest)
+    @GetMapping(value = ["/api/participants/{participantId}"], produces = ["application/json"])
+    override fun readParticipant(
+        @PathVariable("participantId") id: String): WebResponse<Response> {
+        val response = service.read(id)
 
         return WebResponse(
             code = 200,
@@ -35,9 +35,9 @@ class QuizController(val service: IQuizService): IQuizController {
         )
     }
 
-    @PutMapping(value = ["/api/questions/{quizId}"], produces = ["application/json"], consumes = ["application/json"])
-    override fun updateRoom(
-        @PathVariable("quizId") id: String,
+    @PutMapping(value = ["/api/participants/{participantId}"], produces = ["application/json"], consumes = ["application/json"])
+    override fun updateParticipant(
+        @PathVariable("participantId") id: String,
         @RequestBody updateRequest: UpdateRequest): WebResponse<Response> {
         val response = service.update(id, updateRequest)
 
@@ -48,9 +48,9 @@ class QuizController(val service: IQuizService): IQuizController {
         )
     }
 
-    @DeleteMapping(value = ["/api/questions/{quizId}"], produces = ["application/json"])
-    override fun deleteRoom(
-        @PathVariable("quizId") id: String): WebResponse<String> {
+    @DeleteMapping(value = ["/api/participants/{participantId}"], produces = ["application/json"])
+    override fun deleteParticipant(
+        @PathVariable("participantId") id: String): WebResponse<String> {
         service.delete(id)
 
         return WebResponse(
@@ -60,8 +60,8 @@ class QuizController(val service: IQuizService): IQuizController {
         )
     }
 
-    @GetMapping(value = ["/api/questions"], produces = ["application/json"])
-    override fun listRoom(
+    @GetMapping(value = ["/api/participants"], produces = ["application/json"])
+    override fun listParticipant(
         @RequestParam(value = "page", defaultValue = "0") page: Int,
         @RequestParam(value = "size", defaultValue = "5") size: Int): WebResponse<List<Response>> {
         val response = service.list(ListRequest(page, size))
@@ -72,5 +72,4 @@ class QuizController(val service: IQuizService): IQuizController {
             data = response
         )
     }
-
 }

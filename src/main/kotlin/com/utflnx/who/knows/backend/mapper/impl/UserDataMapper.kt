@@ -23,20 +23,8 @@ class UserDataMapper(val dataValidator: DataValidator): IUserDataMapper {
             username = createRequest.username!!,
             password = createRequest.password!!,
             createdAt = Date(),
-            updatedAt = null
-        )
-    }
-
-    override fun toResponse(user: User): Response{
-        return Response(
-            userId = user.id,
-            fullName = user.fullName,
-            email = user.email,
-            phone = user.phone,
-            username = user.username,
-            password = user.password,
-            createdAt = user.createdAt,
-            updatedAt = user.updatedAt
+            updatedAt = null,
+            rooms = emptyList()
         )
     }
 
@@ -53,5 +41,19 @@ class UserDataMapper(val dataValidator: DataValidator): IUserDataMapper {
         }
 
         return current
+    }
+
+    override fun toResponse(user: User): Response{
+        return Response(
+            userId = user.id,
+            fullName = user.fullName,
+            email = user.email,
+            phone = user.phone,
+            username = user.username,
+            password = user.password,
+            createdAt = user.createdAt,
+            updatedAt = user.updatedAt,
+            room = user.rooms
+        )
     }
 }

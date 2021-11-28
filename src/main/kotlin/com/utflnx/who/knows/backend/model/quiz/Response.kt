@@ -11,5 +11,5 @@ data class Response(
     val answer: String,
     val createdBy: String,
     val createdAt: Date,
-    val updatedAt: Date
+    val updatedAt: Date?
 )

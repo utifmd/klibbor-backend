@@ -29,5 +29,9 @@ data class User(
     var createdAt: Date,
 
     @Column(name = "updatedAt")
-    var updatedAt: Date?
+    var updatedAt: Date?,
+
+    @JoinColumn(name = "userId")
+    @OneToMany
+    var rooms: List<Room>?
 )

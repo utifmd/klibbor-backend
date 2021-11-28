@@ -23,6 +23,8 @@ class RoomDataMapper(val validator: DataValidator): IRoomDataMapper {
             createRequest.expired ?: true,
             Date(),
             null
+//            ,
+//            null
         )
     }
 
@@ -49,7 +51,7 @@ class RoomDataMapper(val validator: DataValidator): IRoomDataMapper {
             room.description,
             room.expired,
             room.createdAt,
-            room.updatedAt ?: Date()
+            room.updatedAt //, user = room.user
         )
     }
 }

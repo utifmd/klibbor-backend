@@ -31,6 +31,8 @@ class RoomService(
     override fun read(readRequest: String): Response {
         val room = repository.findByIdOrNull(readRequest) ?: throw NotFoundException()
 
+//        room.user?.rooms = null
+
         return mapper.toResponse(room)
     }
 
