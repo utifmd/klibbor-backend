@@ -3,6 +3,7 @@ package com.utflnx.who.knows.backend.mapper.impl
 import com.utflnx.who.knows.backend.entity.User
 import com.utflnx.who.knows.backend.mapper.IUserDataMapper
 import com.utflnx.who.knows.backend.model.user.CreateRequest
+import com.utflnx.who.knows.backend.model.user.LoginRequest
 import com.utflnx.who.knows.backend.model.user.Response
 import com.utflnx.who.knows.backend.model.user.UpdateRequest
 import com.utflnx.who.knows.backend.validation.impl.DataValidator
@@ -55,5 +56,9 @@ class UserDataMapper(val dataValidator: DataValidator): IUserDataMapper {
             updatedAt = user.updatedAt,
             room = user.rooms
         )
+    }
+
+    override fun validate(model: Any) {
+        dataValidator.validate(model)
     }
 }

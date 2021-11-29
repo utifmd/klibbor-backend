@@ -1,18 +1,30 @@
+
+### Authentication ###
+# POST http://127.0.0.1:8080/api/auth/sign-in
+# X-Api-Key: utif.pages.dev
+# Content-Type: application/json
+# Accept: application/json
+
+# {
+#     "email": "utifmd@gmail.com",
+#     "password": "12121212"
+# }
+
 ### PARTICIPANT ###
 
-POST http://127.0.0.1:8080/api/participants
-X-Api-Key: utif.pages.dev
-Content-Type: application/json
-Accept: application/json
+# POST http://127.0.0.1:8080/api/participants
+# X-Api-Key: utif.pages.dev
+# Content-Type: application/json
+# Accept: application/json
 
-{
-  "participantId": "P00001",
-  "roomId": "B00001",
-  "userId": "A00002",
-  "currentPage": "1",
-  "timeLeft": "45",
-  "expired": false
-}
+# {
+#   "participantId": "P00001",
+#   "roomId": "B00001",
+#   "userId": "A00002",
+#   "currentPage": "1",
+#   "timeLeft": "45",
+#   "expired": false
+# }
 
 # Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae modi culpa, itaque esse voluptates saepe? Tempore fuga dignissimos ullam optio adipisci facilis doloribus vero nostrum nulla eius, dolorum quidem placeat.
 
@@ -20,17 +32,17 @@ Accept: application/json
 # X-Api-Key: utif.pages.dev
 # Accept: application/json
 
-# PUT http://127.0.0.1:8080/api/participant/D00001
+# PUT http://127.0.0.1:8080/api/participants/P00001
 # X-Api-Key: utif.pages.dev
 # Content-Type: application/json
 # Accept: application/json
 
 # {
-#   "images": ["http://image.com/1.png", "http://image.com/2.png"],
-#   "question": "Pertanyaan no 5, lorem ipsum dolor, sit amet consectetur adipisicing elit. Id aliquid dignissimos facere reiciendis ipsam praesentium cupiditate magnam facilis minus, ullam ex beatae sequi! Cupiditate ex pariatur aliquam, animi iure similique.",
-#   "options": ["option 1", "option 2", "option 3"],
-#   "answer": "option 3",
-#   "createdBy": "Utif Milkedori"
+#   "roomId": "B00001",
+#   "userId": "A00002",
+#   "currentPage": "2",
+#   "timeLeft": "35",
+#   "expired": false
 # }
 
 # DELETE http://127.0.0.1:8080/api/participant/A00002
@@ -201,7 +213,7 @@ Accept: application/json
 #   "password": "12121212"
 # }
 
-# GET http://127.0.0.1:8080/api/users/A00001
+# GET http://127.0.0.1:8080/api/users/A00002
 # X-Api-Key: utif.pages.dev
 # Accept: application/json
 

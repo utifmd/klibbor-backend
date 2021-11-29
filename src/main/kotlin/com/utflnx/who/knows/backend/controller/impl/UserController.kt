@@ -4,6 +4,7 @@ import com.utflnx.who.knows.backend.controller.IUserController
 import com.utflnx.who.knows.backend.model.WebResponse
 import com.utflnx.who.knows.backend.model.user.CreateRequest
 import com.utflnx.who.knows.backend.model.ListRequest
+import com.utflnx.who.knows.backend.model.user.LoginRequest
 import com.utflnx.who.knows.backend.model.user.Response
 import com.utflnx.who.knows.backend.model.user.UpdateRequest
 import com.utflnx.who.knows.backend.service.IUserService
@@ -78,6 +79,18 @@ class UserController(val service: IUserService): IUserController {
             code = 200,
             status = "OK",
             data = users
+        )
+    }
+
+    @PostMapping(value = ["/api/auth/sign-in"], produces = ["application/json"], consumes = ["application/json"])
+    override fun signInUser(
+        @RequestBody loginRequest: LoginRequest): WebResponse<Response> {
+        val response = service.signIn(loginRequest)
+
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = response
         )
     }
 }

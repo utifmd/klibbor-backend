@@ -1,12 +1,16 @@
 package com.utflnx.who.knows.backend.service.impl
 
+import com.utflnx.who.knows.backend.entity.User
 import com.utflnx.who.knows.backend.mapper.IUserDataMapper
 import com.utflnx.who.knows.backend.model.user.CreateRequest
 import com.utflnx.who.knows.backend.model.ListRequest
+import com.utflnx.who.knows.backend.model.user.LoginRequest
 import com.utflnx.who.knows.backend.model.user.Response
 import com.utflnx.who.knows.backend.model.user.UpdateRequest
 import com.utflnx.who.knows.backend.repository.IUserRepository
 import com.utflnx.who.knows.backend.service.IUserService
+import com.utflnx.who.knows.backend.validation.InvalidEmailException
+import com.utflnx.who.knows.backend.validation.InvalidPasswordException
 import com.utflnx.who.knows.backend.validation.NotFoundException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
@@ -55,5 +59,17 @@ class UserService(
         val users = page.get().collect(Collectors.toList())
 
         return users.map { mapper.toResponse(it) }
+    }
+
+    override fun signIn(loginRequest: LoginRequest): Response {
+        mapper.validate(loginRequest)
+
+        val current = repository.findByEmail(loginRequest.email)
+            ?: throw InvalidEmailException()
+
+        if (current.password != loginRequest.password)
+            throw InvalidPasswordException()
+
+        return mapper.toResponse(current)
     }
 }
