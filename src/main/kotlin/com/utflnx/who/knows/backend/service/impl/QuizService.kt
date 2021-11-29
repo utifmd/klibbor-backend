@@ -47,6 +47,8 @@ class QuizService(
     }
 
     override fun list(listRequest: ListRequest): List<Response> {
+        mapper.validate(listRequest)
+
         val pagedQuestions = repository.findAll(PageRequest.of(listRequest.page, listRequest.size))
         val questions = pagedQuestions.get().collect(Collectors.toList())
 

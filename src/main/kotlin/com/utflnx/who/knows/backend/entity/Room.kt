@@ -30,10 +30,13 @@ data class Room(
     var createdAt: Date,
 
     @Column(name = "updatedAt")
-    var updatedAt: Date?
-//    ,
-//    @JoinColumn(name = "userId", insertable = false, updatable = false)
-//    @ManyToOne
-//    @JsonIgnore
-//    var user: User?
+    var updatedAt: Date?, // @JoinColumn(name = "userId", insertable = false, updatable = false) @ManyToOne @JsonIgnore var user: User?
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "roomId")
+    var questions: List<Quiz>,
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "roomId")
+    var participants: List<Participant>
 )

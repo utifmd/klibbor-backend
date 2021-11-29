@@ -63,7 +63,7 @@ class ResultController(val service: IResultService): IResultController {
     @GetMapping(value = ["/api/results"], produces = ["application/json"])
     override fun listResult(
         @RequestParam(value = "page", defaultValue = "0") page: Int,
-        @RequestParam(value = "size", defaultValue = "0") size: Int): WebResponse<List<Response>> {
+        @RequestParam(value = "size", defaultValue = "5") size: Int): WebResponse<List<Response>> {
         val response = service.list(ListRequest(page, size))
 
         return WebResponse(

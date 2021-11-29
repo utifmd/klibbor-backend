@@ -9,4 +9,5 @@ interface IParticipantDataMapper {
     fun toParticipant(createRequest: CreateRequest): Participant
     fun toParticipant(current: Participant, updateRequest: UpdateRequest): Participant
     fun toResponse(participant: Participant): Response
+    fun validate(any: Any)
 }

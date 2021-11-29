@@ -45,6 +45,8 @@ class ResultService(
     }
 
     override fun list(listRequest: ListRequest): List<Response> {
+        mapper.validate(listRequest)
+
         val pagedResult = repository.findAll(PageRequest.of(listRequest.page, listRequest.size))
         val results = pagedResult.get().collect(Collectors.toList())
 

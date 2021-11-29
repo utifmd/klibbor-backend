@@ -11,6 +11,5 @@ data class Response(
     val username: String,
     val password: String,
     val createdAt: Date,
-    val updatedAt: Date?,
-    val room: List<Room>?
+    val updatedAt: Date? // , val room: List<Room>?
 )

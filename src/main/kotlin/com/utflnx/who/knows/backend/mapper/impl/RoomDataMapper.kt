@@ -12,7 +12,7 @@ import java.util.*
 @Component
 class RoomDataMapper(val validator: DataValidator): IRoomDataMapper {
     override fun toRoom(createRequest: CreateRequest): Room {
-        validator.validate(createRequest)
+        validate(createRequest)
 
         return Room(
             createRequest.roomId ?: "",
@@ -22,14 +22,14 @@ class RoomDataMapper(val validator: DataValidator): IRoomDataMapper {
             createRequest.description ?: "",
             createRequest.expired ?: true,
             Date(),
-            null
-//            ,
-//            null
+            null, // null
+            questions = emptyList(),
+            participants = emptyList()
         )
     }
 
     override fun toRoom(current: Room, updateRequest: UpdateRequest): Room {
-        validator.validate(updateRequest)
+        validate(updateRequest)
 
         current.apply {
             minute = updateRequest.minute ?: 0
@@ -51,7 +51,13 @@ class RoomDataMapper(val validator: DataValidator): IRoomDataMapper {
             room.description,
             room.expired,
             room.createdAt,
-            room.updatedAt //, user = room.user
+            room.updatedAt, // user = room.user
+            room.questions,
+            room.participants
         )
+    }
+
+    override fun validate(any: Any) {
+        validator.validate(any)
     }
 }

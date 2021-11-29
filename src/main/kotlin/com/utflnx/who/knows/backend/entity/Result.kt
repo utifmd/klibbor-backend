@@ -11,6 +11,9 @@ data class Result(
     @Column(name = "resultId")
     val id: String,
 
+    @Column(name = "participantId")
+    var participantId: String,
+
     @Column(name = "roomId")
     var roomId: String,
 
@@ -33,5 +36,4 @@ data class Result(
 
     @Column(name = "updatedAt")
     var updatedAt:Date?
-
 )

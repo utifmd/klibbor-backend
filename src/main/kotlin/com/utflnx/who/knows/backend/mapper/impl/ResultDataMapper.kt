@@ -12,10 +12,11 @@ import java.util.*
 @Component
 class ResultDataMapper(val validator: IDataValidator): IResultDataMapper {
     override fun toResult(createRequest: CreateRequest): Result {
-        validator.validate(createRequest)
+        validate(createRequest)
 
         return Result(
             createRequest.resultId ?: "",
+            createRequest.participantId ?: "",
             createRequest.roomId ?: "",
             createRequest.userId ?: "",
             createRequest.correctQuiz ?: emptyList(),
@@ -27,7 +28,7 @@ class ResultDataMapper(val validator: IDataValidator): IResultDataMapper {
     }
 
     override fun toResult(current: Result, updateRequest: UpdateRequest): Result {
-        validator.validate(updateRequest)
+        validate(updateRequest)
 
         current.apply {
                 correctQuiz = updateRequest.correctQuiz ?: emptyList()
@@ -42,6 +43,7 @@ class ResultDataMapper(val validator: IDataValidator): IResultDataMapper {
     override fun toResponse(result: Result): Response {
         return Response(
             result.id,
+            result.participantId,
             result.roomId,
             result.userId,
             result.correctQuiz,
@@ -50,5 +52,9 @@ class ResultDataMapper(val validator: IDataValidator): IResultDataMapper {
             Date(),
             result.updatedAt
         )
+    }
+
+    override fun validate(any: Any) {
+        validator.validate(any)
     }
 }

@@ -9,4 +9,5 @@ interface IQuizDataMapper {
     fun toQuiz(createRequest: CreateRequest): Quiz
     fun toQuiz(current: Quiz, updateRequest: UpdateRequest): Quiz
     fun toResponse(quiz: Quiz): Response
+    fun validate(any: Any)
 }

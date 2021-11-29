@@ -9,4 +9,5 @@ interface IRoomDataMapper {
     fun toRoom(createRequest: CreateRequest): Room
     fun toRoom(current: Room, updateRequest: UpdateRequest): Room
     fun toResponse(room: Room): Response
+    fun validate(any: Any)
 }

@@ -47,6 +47,8 @@ class ParticipantService(
     }
 
     override fun list(listRequest: ListRequest): List<Response> {
+        mapper.validate(listRequest)
+
         val pagedParticipant = repository.findAll(PageRequest.of(listRequest.page, listRequest.size))
         val participants = pagedParticipant.get().collect(Collectors.toList())
 

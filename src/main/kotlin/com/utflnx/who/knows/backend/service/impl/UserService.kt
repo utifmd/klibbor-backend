@@ -55,6 +55,8 @@ class UserService(
     }
 
     override fun list(listRequest: ListRequest): List<Response> {
+        mapper.validate(listRequest)
+
         val page = repository.findAll(PageRequest.of(listRequest.page, listRequest.size))
         val users = page.get().collect(Collectors.toList())
 

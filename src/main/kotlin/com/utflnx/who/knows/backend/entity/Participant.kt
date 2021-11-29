@@ -1,10 +1,7 @@
 package com.utflnx.who.knows.backend.entity
 
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "participants")
@@ -33,5 +30,13 @@ data class Participant(
     var createdAt: Date,
     
     @Column(name = "updatedAt")
-    var updatedAt: Date?   
+    var updatedAt: Date?,
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "participantId")
+    var results: List<Result>
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "resultId")
+//    var result: Result?
 )

@@ -1,5 +1,6 @@
 package com.utflnx.who.knows.backend.model.participant
 
+import com.utflnx.who.knows.backend.entity.Result
 import java.util.*
 
 data class Response(
@@ -10,5 +11,6 @@ data class Response(
     val timeLeft: Int,
     val expired: Boolean,
     val createdAt: Date,
-    val updatedAt: Date?
+    val updatedAt: Date?,
+    val result: List<Result>
 )

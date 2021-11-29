@@ -9,4 +9,6 @@ interface IResultDataMapper {
     fun toResult(createRequest: CreateRequest): Result
     fun toResult(current: Result, updateRequest: UpdateRequest): Result
     fun toResponse(result: Result): Response
+    fun validate(any: Any)
+
 }

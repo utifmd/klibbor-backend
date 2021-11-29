@@ -52,8 +52,9 @@ class RoomService(
     }
 
     override fun list(listRequest: ListRequest): List<Response> {
-        val pagedRoom = repository.findAll(PageRequest.of(listRequest.page, listRequest.size))
+        mapper.validate(listRequest)
 
+        val pagedRoom = repository.findAll(PageRequest.of(listRequest.page, listRequest.size))
         val rooms = pagedRoom.get().collect(Collectors.toList())
 
         return rooms.map {

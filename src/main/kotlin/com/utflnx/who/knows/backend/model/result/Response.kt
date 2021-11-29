@@ -4,6 +4,7 @@ import java.util.*
 
 data class Response(
     val resultId: String,
+    val participantId: String,
     val roomId: String,
     val userId: String,
     val correctQuiz: List<String>,

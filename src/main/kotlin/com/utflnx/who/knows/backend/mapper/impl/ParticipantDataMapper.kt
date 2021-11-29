@@ -12,7 +12,7 @@ import java.util.*
 @Component
 class ParticipantDataMapper(val validator: IDataValidator): IParticipantDataMapper {
     override fun toParticipant(createRequest: CreateRequest): Participant {
-        validator.validate(createRequest)
+        validate(createRequest)
 
         return Participant(
             createRequest.participantId ?: "",
@@ -22,12 +22,13 @@ class ParticipantDataMapper(val validator: IDataValidator): IParticipantDataMapp
             createRequest.timeLeft ?: 0,
             createRequest.expired ?: false,
             Date(),
-            null
+            updatedAt = null,
+            results = emptyList()
         )
     }
 
     override fun toParticipant(current: Participant, updateRequest: UpdateRequest): Participant {
-        validator.validate(updateRequest)
+        validate(updateRequest)
 
         current.apply {
             currentPage = updateRequest.currentPage ?: ""
@@ -48,7 +49,12 @@ class ParticipantDataMapper(val validator: IDataValidator): IParticipantDataMapp
             participant.timeLeft ?: 0,
             participant.expired,
             participant.createdAt,
-            participant.updatedAt
+            participant.updatedAt,
+            participant.results
         )
+    }
+
+    override fun validate(any: Any) {
+        validator.validate(any)
     }
 }

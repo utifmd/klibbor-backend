@@ -12,7 +12,7 @@ import java.util.*
 @Component
 class QuizDataMapper(val validator: IDataValidator): IQuizDataMapper {
     override fun toQuiz(createRequest: CreateRequest): Quiz {
-        validator.validate(createRequest)
+        validate(createRequest)
 
         return Quiz(
             createRequest.quizId ?: "",
@@ -28,7 +28,7 @@ class QuizDataMapper(val validator: IDataValidator): IQuizDataMapper {
     }
 
     override fun toQuiz(current: Quiz, updateRequest: UpdateRequest): Quiz {
-        validator.validate(updateRequest)
+        validate(updateRequest)
 
         current.apply {
             images = updateRequest.images
@@ -54,5 +54,9 @@ class QuizDataMapper(val validator: IDataValidator): IQuizDataMapper {
             quiz.createdAt,
             quiz.updatedAt
         )
+    }
+
+    override fun validate(any: Any) {
+        validator.validate(any)
     }
 }
