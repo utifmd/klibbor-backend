@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class UserController(val service: IUserService): IUserController {
 
-    @PostMapping(value = ["/api/users"],
-        produces = ["application/json"],
-        consumes = ["application/json"])
+    @PostMapping(value = ["/api/users"], produces = ["application/json"], consumes = ["application/json"])
     override fun createUser(
         @RequestBody createRequest: CreateRequest ): WebResponse<Response>{
         val response = service.create(createRequest)
@@ -27,8 +25,7 @@ class UserController(val service: IUserService): IUserController {
         )
     }
 
-    @GetMapping(value = ["/api/users/{userId}"],
-        produces = ["application/json"])
+    @GetMapping(value = ["/api/users/{userId}"], produces = ["application/json"])
     override fun readUser(
         @PathVariable("userId") readRequest: String): WebResponse<Response> {
         val response = service.read(readRequest)
@@ -40,9 +37,7 @@ class UserController(val service: IUserService): IUserController {
         )
     }
 
-    @PutMapping(value = ["/api/users/{userId}"],
-        produces = ["application/json"],
-        consumes = ["application/json"])
+    @PutMapping(value = ["/api/users/{userId}"], produces = ["application/json"], consumes = ["application/json"])
     override fun updateUser(
         @PathVariable("userId") id: String,
         @RequestBody updateRequest: UpdateRequest): WebResponse<Response> {
@@ -55,8 +50,7 @@ class UserController(val service: IUserService): IUserController {
         )
     }
 
-    @DeleteMapping(value = ["/api/users/{userId}"],
-        produces = ["application/json"])
+    @DeleteMapping(value = ["/api/users/{userId}"], produces = ["application/json"])
     override fun deleteUser(
         @PathVariable("userId") id: String): WebResponse<String> {
         service.delete(id)
@@ -68,8 +62,7 @@ class UserController(val service: IUserService): IUserController {
         )
     }
 
-    @GetMapping(value = [ "/api/users" ],
-        produces = ["application/json"])
+    @GetMapping(value = [ "/api/users" ], produces = ["application/json"])
     override fun listUser(
         @RequestParam(value = "page", defaultValue = "0") page: Int,
         @RequestParam(value = "size", defaultValue = "10") size: Int): WebResponse<List<Response>> {
