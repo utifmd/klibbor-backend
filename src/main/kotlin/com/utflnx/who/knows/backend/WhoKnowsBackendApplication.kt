@@ -7,14 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 
 @SpringBootApplication // @ComponentScan(basePackageClasses = [UserController::class])
-@Controller
 class WhoKnowsBackendApplication
-
-@RequestMapping("/")
-@ResponseBody
-fun home(): String {
-	return "Welcome to WhoKnows Backend API"
-}
 
 fun main(args: Array<String>) {
 	runApplication<WhoKnowsBackendApplication>(*args)
