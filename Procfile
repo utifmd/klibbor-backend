@@ -1,1 +1,1 @@
-web: java -jar build/libs/who-knows-backend.jar --server.port=$PORT
+web: java -jar build/libs/*.jar --server.port=$PORT
