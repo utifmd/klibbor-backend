@@ -15,7 +15,7 @@ class QuizDataMapper(val validator: IDataValidator): IQuizDataMapper {
         validate(createRequest)
 
         return Quiz(
-            createRequest.quizId ?: "",
+            createRequest.id ?: "",
             createRequest.roomId ?: "",
             createRequest.images ?: emptyList(),
             createRequest.question ?: "",

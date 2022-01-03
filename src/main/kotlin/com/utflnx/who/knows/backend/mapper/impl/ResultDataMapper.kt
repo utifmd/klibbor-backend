@@ -16,7 +16,7 @@ class ResultDataMapper(val validator: IDataValidator): IResultDataMapper {
 
         return Result(
             createRequest.resultId ?: "",
-            createRequest.participantId ?: "",
+            //createRequest.participantId ?: "",
             createRequest.roomId ?: "",
             createRequest.userId ?: "",
             createRequest.correctQuiz ?: emptyList(),
@@ -43,7 +43,7 @@ class ResultDataMapper(val validator: IDataValidator): IResultDataMapper {
     override fun toResponse(result: Result): Response {
         return Response(
             result.id,
-            result.participantId,
+            //result.participantId,
             result.roomId,
             result.userId,
             result.correctQuiz,

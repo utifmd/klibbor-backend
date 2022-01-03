@@ -18,7 +18,7 @@
 # Accept: application/json
 
 # {
-#   "participantId": "P00002",
+#   "id": "P00002",
 #   "roomId": "B00001",
 #   "userId": "A00003",
 #   "currentPage": "2",
@@ -66,7 +66,6 @@
 
 # {
 #   "resultId": "R00001",
-#   "participantId": "P00001",
 #   "roomId": "B00001",
 #   "userId": "A00002",
 #   "score": "85",
@@ -109,35 +108,38 @@
 ### QUIZ ###
 
 # POST https://who-knows-backend.herokuapp.com/api/questions
+# POST http://127.0.0.1:8080/api/questions
 # X-Api-Key: utif.pages.dev
 # Content-Type: application/json
 # Accept: application/json
 
 # {
-#   "quizId": "C00005",
-#   "roomId": "B00001",
-#   "images": ["http://image.com/1.png", "http://image.com/2.png"],
-#   "question": "Pertanyaan no 5, lorem ipsum dolor, sit amet consectetur adipisicing elit. Id aliquid dignissimos facere reiciendis ipsam praesentium cupiditate magnam facilis minus, ullam ex beatae sequi! Cupiditate ex pariatur aliquam, animi iure similique.",
-#   "options": ["option 1", "option 2", "option 3"],
-#   "answer": "option 2",
-#   "createdBy": "Utif Milkedori"
+#   "id": "QIZ-f80365e5-0e65-4674-9e7b-bee666b62bda",
+#   "roomId": "ROM-f80365e5-0e65-4674-9e7b-bee666b62bda",
+#   "images": [],
+#   "question": "Berapa jam dalam sehari?",
+#   "options": ["54 jam", "24 jam", "35 jam", "70 jam"],
+#   "answer": "24 jam",
+#   "createdBy": "Diyanti ratna puspita sari"
 # }
 
 # GET https://who-knows-backend.herokuapp.com/api/questions/C00002
 # X-Api-Key: utif.pages.dev
 # Accept: application/json
 
-# PUT https://who-knows-backend.herokuapp.com/api/questions/C00005
+# PUT https://who-knows-backend.herokuapp.com/api/questions/QIZ-f80365e5-0e65-4674-9e7b-bee666b62bda
+# PUT http://127.0.0.1:8080/api/questions/QIZ-f80365e5-0e65-4674-9e7b-bee666b62bda
 # X-Api-Key: utif.pages.dev
 # Content-Type: application/json
 # Accept: application/json
 
 # {
-#   "images": ["http://image.com/1.png", "http://image.com/2.png"],
-#   "question": "Pertanyaan no 5, lorem ipsum dolor, sit amet consectetur adipisicing elit. Id aliquid dignissimos facere reiciendis ipsam praesentium cupiditate magnam facilis minus, ullam ex beatae sequi! Cupiditate ex pariatur aliquam, animi iure similique.",
-#   "options": ["option 1", "option 2", "option 3"],
-#   "answer": "option 3",
-#   "createdBy": "Utif Milkedori"
+#   "roomId": "ROM-f80365e5-0e65-4674-9e7b-bee666b62bda",
+#   "images": [],
+#   "question": "Berapa jam dalam sehari?",
+#   "options": ["54 jam", "24 jam", "35 jam", "70 jam"],
+#   "answer": "{\"answer\":\"24 jam\", \"type\": \"SingleChoice\"}",
+#   "createdBy": "Diyanti ratna puspita sari"
 # }
 
 # DELETE https://who-knows-backend.herokuapp.com/api/questions/A00002
@@ -145,7 +147,7 @@
 # Content-Type: application/json
 # Accept: application/json
 
-# GET https://who-knows-backend.herokuapp.com/api/questions
+# GET http://127.0.0.1:8080/api/questions
 # # GET https://who-knows-backend.herokuapp.com/api/questions?size=3&page=0
 # X-Api-Key: utif.pages.dev
 # Accept: application/json
@@ -187,10 +189,10 @@
 # Content-Type: application/json
 # Accept: application/json
 
-# GET https://who-knows-backend.herokuapp.com/api/rooms
+GET http://127.0.0.1:8080/api/rooms
 # GET https://who-knows-backend.herokuapp.com/api/rooms?size=3&page=0
-# X-Api-Key: utif.pages.dev
-# Accept: application/json
+X-Api-Key: utif.pages.dev
+Accept: application/json
 
 # PUT https://who-knows-backend.herokuapp.com/api/rooms/A00011
 # X-Api-Key: utif.pages.dev

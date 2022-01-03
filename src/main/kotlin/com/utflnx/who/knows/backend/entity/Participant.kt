@@ -8,7 +8,7 @@ import javax.persistence.*
 data class Participant(
 
     @Id
-    @Column(name = "participantId")
+    @Column(name = "id")
     val id: String,
     
     @Column(name = "roomId")
@@ -32,9 +32,9 @@ data class Participant(
     @Column(name = "updatedAt")
     var updatedAt: Date?,
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "participantId")
-    var results: List<Result>
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "participantId")
+//    var results: List<Result>
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "resultId")

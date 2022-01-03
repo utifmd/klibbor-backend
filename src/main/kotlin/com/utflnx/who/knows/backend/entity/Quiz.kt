@@ -8,7 +8,7 @@ import javax.persistence.*
 data class Quiz(
 
     @Id
-    @Column(name = "quizId")
+    @Column(name = "id")
     val id: String,
 
     @Column(name = "roomId")

@@ -15,7 +15,7 @@ class ParticipantDataMapper(val validator: IDataValidator): IParticipantDataMapp
         validate(createRequest)
 
         return Participant(
-            createRequest.participantId ?: "",
+            createRequest.id ?: "",
             createRequest.roomId ?: "",
             createRequest.userId ?: "",
             createRequest.currentPage ?: "",
@@ -23,7 +23,7 @@ class ParticipantDataMapper(val validator: IDataValidator): IParticipantDataMapp
             createRequest.expired ?: false,
             Date(),
             updatedAt = null,
-            results = emptyList()
+            //results = emptyList()
         )
     }
 
@@ -50,7 +50,7 @@ class ParticipantDataMapper(val validator: IDataValidator): IParticipantDataMapp
             participant.expired,
             participant.createdAt,
             participant.updatedAt,
-            participant.results
+            //participant.results
         )
     }
 

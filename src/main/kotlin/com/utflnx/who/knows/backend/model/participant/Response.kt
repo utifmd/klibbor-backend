@@ -4,7 +4,7 @@ import com.utflnx.who.knows.backend.entity.Result
 import java.util.*
 
 data class Response(
-    val participantId: String,
+    val id: String,
     val roomId: String,
     val userId: String,
     val currentPage: String,
@@ -12,5 +12,5 @@ data class Response(
     val expired: Boolean,
     val createdAt: Date,
     val updatedAt: Date?,
-    val result: List<Result>
+    //val result: List<Result>
 )

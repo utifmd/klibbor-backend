@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull
 data class CreateRequest(
 
     @field:NotBlank
-    val quizId: String?,
+    val id: String?,
 
     @field:NotBlank
     val roomId: String?,
