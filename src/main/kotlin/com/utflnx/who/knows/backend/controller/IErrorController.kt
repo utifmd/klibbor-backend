@@ -1,10 +1,8 @@
 package com.utflnx.who.knows.backend.controller
 
 import com.utflnx.who.knows.backend.model.WebResponse
-import com.utflnx.who.knows.backend.validation.InvalidEmailException
-import com.utflnx.who.knows.backend.validation.InvalidPasswordException
-import com.utflnx.who.knows.backend.validation.NotFoundException
-import com.utflnx.who.knows.backend.validation.UnauthorizedException
+import com.utflnx.who.knows.backend.validation.*
+import org.springframework.web.multipart.MaxUploadSizeExceededException
 import javax.validation.ConstraintViolationException
 
 interface IErrorController {
@@ -14,4 +12,5 @@ interface IErrorController {
 
     fun handleInvalidEmail(exception: InvalidEmailException): WebResponse<String>
     fun handleInvalidPassword(exception: InvalidPasswordException): WebResponse<String>
+    fun handleInvalidPassword(exception: MaxUploadSizeExceededException): WebResponse<String>
 }

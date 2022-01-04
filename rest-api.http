@@ -1,4 +1,3 @@
-
 ### Authentication ###
 # POST https://who-knows-backend.herokuapp.com/api/auth/sign-in
 # X-Api-Key: utif.pages.dev
@@ -148,9 +147,9 @@
 # Accept: application/json
 
 # GET http://127.0.0.1:8080/api/questions
-# # GET https://who-knows-backend.herokuapp.com/api/questions?size=3&page=0
-# X-Api-Key: utif.pages.dev
-# Accept: application/json
+GET https://who-knows-backend.herokuapp.com/api/questions?size=3&page=0
+X-Api-Key: utif.pages.dev
+Accept: application/json
 
 ### ROOM ###
 
@@ -189,8 +188,8 @@
 # Content-Type: application/json
 # Accept: application/json
 
-GET http://127.0.0.1:8080/api/rooms
-# GET https://who-knows-backend.herokuapp.com/api/rooms?size=3&page=0
+# GET http://127.0.0.1:8080/api/rooms
+GET https://who-knows-backend.herokuapp.com/api/rooms?size=3&page=0
 X-Api-Key: utif.pages.dev
 Accept: application/json
 

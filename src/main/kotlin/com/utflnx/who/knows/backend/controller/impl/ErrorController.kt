@@ -2,12 +2,10 @@ package com.utflnx.who.knows.backend.controller.impl
 
 import com.utflnx.who.knows.backend.controller.IErrorController
 import com.utflnx.who.knows.backend.model.WebResponse
-import com.utflnx.who.knows.backend.validation.InvalidEmailException
-import com.utflnx.who.knows.backend.validation.InvalidPasswordException
-import com.utflnx.who.knows.backend.validation.NotFoundException
-import com.utflnx.who.knows.backend.validation.UnauthorizedException
+import com.utflnx.who.knows.backend.validation.*
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.multipart.MaxUploadSizeExceededException
 import javax.validation.ConstraintViolationException
 
 @RestControllerAdvice
@@ -55,6 +53,15 @@ class ErrorController: IErrorController {
             code = 400,
             status = "BAD REQUEST",
             data = exception.message ?: "Password mismatch."
+        )
+    }
+
+    @ExceptionHandler(value = [ MaxUploadSizeExceededException::class ])
+    override fun handleInvalidPassword(exception: MaxUploadSizeExceededException): WebResponse<String> {
+        return WebResponse(
+            code = 400,
+            status = "BAD REQUEST",
+            data = exception.message ?: "File too large! max 2mb."
         )
     }
 }
