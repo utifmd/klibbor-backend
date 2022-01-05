@@ -12,6 +12,7 @@ import java.util.stream.Stream
 interface IFileDbService {
     fun create(file: MultipartFile): Response
     fun read(id: String): Response
+    // fun delete(id: String): Response
     fun list(ids: List<String>): Stream<Response>
     fun list(): Stream<Response>
 

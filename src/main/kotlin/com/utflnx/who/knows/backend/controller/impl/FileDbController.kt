@@ -5,7 +5,9 @@ import com.utflnx.who.knows.backend.model.WebResponse
 import com.utflnx.who.knows.backend.model.file.ListRequest
 import com.utflnx.who.knows.backend.model.file.Response
 import com.utflnx.who.knows.backend.service.IFileDbService
-import org.springframework.stereotype.Controller
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.util.stream.Collectors
@@ -18,7 +20,7 @@ import java.util.stream.Collectors
 class FileDbController(val service: IFileDbService): IFileDbController {
     @PostMapping("/upload")
     override fun create(
-        @RequestParam file: MultipartFile): WebResponse<Response> {
+        @RequestParam("file") file: MultipartFile): WebResponse<Response> {
         val response = service.create(file)
 
         return WebResponse(
@@ -30,14 +32,26 @@ class FileDbController(val service: IFileDbService): IFileDbController {
 
     @GetMapping("/files/{id}")
     override fun read(
-        @PathVariable("id") id: String): WebResponse<ByteArray> {
-        val response = service.read(id).fileDb.data
+        @PathVariable("id") id: String): ResponseEntity<ByteArray> {
+        val response = service.read(id)
 
-        return WebResponse(
-            code = 200,
-            status = "OK",
-            data = response
-        )
+        val headers = HttpHeaders()
+        headers.contentType = when(response.type){
+            MediaType.IMAGE_PNG_VALUE -> MediaType.IMAGE_PNG
+            MediaType.IMAGE_GIF_VALUE -> MediaType.IMAGE_GIF
+            else -> MediaType.IMAGE_JPEG
+        }
+
+        return ResponseEntity
+            .ok()
+            .headers(headers)
+            .body(response.fileDb.data)
+
+//        WebResponse(
+//            code = 200,
+//            status = "OK",
+//            data = response
+//        )
     }
 
     @GetMapping("/files")

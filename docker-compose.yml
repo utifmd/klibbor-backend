@@ -1,12 +1,58 @@
 version: '3.5'
-
 services:
-  who-knows-backend:
-    container_name: who_knows_backend
+  postgres:
     image: postgres:latest
     ports:
       - 5432:5432
+    volumes:
+      - postgresdata:/var/lib/postgres
     environment:
       POSTGRES_PASSWORD: kotlin
       POSTGRES_USER: kotlin
       POSTGRES_DB: who_knows
+    networks:
+      - backend
+    container_name: postgresdb
+
+  spring_boot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: development
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresdb:5432/who_knows
+      - SPRING_DATASOURCE_USERNAME=kotlin
+      - SPRING_DATASOURCE_PASSWORD=kotlin
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/var/www/html/who-knows-backend
+#      - /var/www/html/who-knows-backend/build/libs
+    command: java -jar build/libs/who-knows-backend-0.0.1-SNAPSHOT.jar
+    container_name: who_knows_spring_boot
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  postgresdata: {}
+#version: '3.5'
+#
+#services:
+#  who-knows-backend:
+#    container_name: who_knows_backend
+#    image: postgres:latest
+#    ports:
+#      - 5432:5432
+#    environment:
+#      POSTGRES_PASSWORD: kotlin
+#      POSTGRES_USER: kotlin
+#      POSTGRES_DB: who_knows

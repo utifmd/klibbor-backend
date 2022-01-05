@@ -6,6 +6,7 @@ import com.utflnx.who.knows.backend.validation.*
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.multipart.MaxUploadSizeExceededException
+import org.springframework.web.multipart.MultipartException
 import javax.validation.ConstraintViolationException
 
 @RestControllerAdvice
@@ -29,12 +30,30 @@ class ErrorController: IErrorController {
         )
     }
 
+    @ExceptionHandler(value = [ NoSuchElementException::class ])
+    override fun handleNotFound(exception: NoSuchElementException): WebResponse<String> {
+        return WebResponse(
+            code = 404,
+            status = "NOT FOUND",
+            data = exception.message ?: "Not Found Exception"
+        )
+    }
+
     @ExceptionHandler(value = [ UnauthorizedException::class ])
     override fun handleUnauthorized(exception: UnauthorizedException): WebResponse<String> {
         return WebResponse(
             code = 401,
             status = "UNAUTHORIZED",
             data = exception.message ?: "Unauthorized Exception"
+        )
+    }
+
+    @ExceptionHandler(value = [MultipartException::class])
+    override fun handleInvalidMultipart(exception: MultipartException): WebResponse<String> {
+        return WebResponse(
+            code = 400,
+            status = "Bad Request",
+            data = exception.message ?: "MultipartException"
         )
     }
 
