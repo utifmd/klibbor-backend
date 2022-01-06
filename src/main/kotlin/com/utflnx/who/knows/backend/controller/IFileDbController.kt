@@ -12,7 +12,9 @@ import org.springframework.web.multipart.MultipartFile
  **/
 interface IFileDbController {
     fun create(file: MultipartFile): WebResponse<Response>
+    fun create(files: List<MultipartFile>): WebResponse<List<Response>>
     fun read(id: String): ResponseEntity<ByteArray>
+    fun delete(id: String): WebResponse<String>
     fun list(): WebResponse<List<Response>>
     fun list(listRequest: ListRequest): WebResponse<List<Response>>
 }

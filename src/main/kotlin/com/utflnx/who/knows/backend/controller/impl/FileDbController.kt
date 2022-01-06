@@ -18,7 +18,7 @@ import java.util.stream.Collectors
  **/
 @RestController
 class FileDbController(val service: IFileDbService): IFileDbController {
-    @PostMapping("/upload")
+    @PostMapping("/upload-file")
     override fun create(
         @RequestParam("file") file: MultipartFile): WebResponse<Response> {
         val response = service.create(file)
@@ -27,6 +27,30 @@ class FileDbController(val service: IFileDbService): IFileDbController {
             code = 200,
             status = "OK",
             data = response
+        )
+    }
+
+    @PostMapping("/upload-files")
+    override fun create(
+        @RequestParam("files") files: List<MultipartFile>): WebResponse<List<Response>> {
+        val response = service.create(files).collect(Collectors.toList())
+
+        return WebResponse(
+            code = 200,
+            status = "ok",
+            data = response
+        )
+    }
+
+    @DeleteMapping(value = ["/files/{id}"], produces = ["application/json"])
+    override fun delete(
+        @PathVariable("id") id: String): WebResponse<String> {
+        service.delete(id)
+
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = id
         )
     }
 
@@ -42,16 +66,9 @@ class FileDbController(val service: IFileDbService): IFileDbController {
             else -> MediaType.IMAGE_JPEG
         }
 
-        return ResponseEntity
-            .ok()
+        return ResponseEntity.ok()
             .headers(headers)
             .body(response.fileDb.data)
-
-//        WebResponse(
-//            code = 200,
-//            status = "OK",
-//            data = response
-//        )
     }
 
     @GetMapping("/files")

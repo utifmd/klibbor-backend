@@ -12,11 +12,13 @@ import org.springframework.web.multipart.MultipartFile
  * who-knows-backend by utifmd
  **/
 interface IFileDbDataMapper {
-    fun asResponse(fileDb: FileDb): Response
-    /*fun asResponse(createRequest: CreateRequest): Response*/
-    fun fileDownloadUri(fileId: String): String
     fun asFileDb(file: MultipartFile): FileDb
+    fun asFilesDb(files: List<MultipartFile>): List<FileDb>
+    fun fileDownloadUri(fileId: String): String
+    fun asResponse(fileDb: FileDb): Response
+    fun asResponse(filesDb: List<FileDb>): List<Response>
 
+    /*fun asResponse(createRequest: CreateRequest): Response*/
     /*fun toQuiz(current: Quiz, updateRequest: UpdateRequest): FileDb
     fun toFileDb(createRequest: CreateRequest): FileDb
     fun toResponse(fileDb: FileDb): Response

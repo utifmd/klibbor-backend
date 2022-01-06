@@ -15,6 +15,33 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
  **/
 @Component
 class FileDbDataMapper(val validator: IDataValidator) : IFileDbDataMapper {
+
+    override fun fileDownloadUri(fileId: String): String {
+        validator.validate(fileId)
+
+        return ServletUriComponentsBuilder
+            .fromCurrentContextPath()
+            .path("/files/")
+            .path(fileId)
+            .toUriString()
+    }
+
+    override fun asFilesDb(files: List<MultipartFile>): List<FileDb> =
+        files.map { asFileDb(it) }
+
+    override fun asFileDb(file: MultipartFile): FileDb {
+        validator.validate(file)
+
+        return FileDb(
+            name = file.originalFilename,
+            type = file.contentType,
+            data = file.bytes,
+        )
+    }
+
+    override fun asResponse(filesDb: List<FileDb>): List<Response> =
+        filesDb.map { asResponse(it) }
+
     override fun asResponse(fileDb: FileDb): Response {
         validator.validate(fileDb)
 
@@ -26,7 +53,6 @@ class FileDbDataMapper(val validator: IDataValidator) : IFileDbDataMapper {
             fileDb.data.size.toLong()
         )
     }
-
     /*override fun asResponse(createRequest: CreateRequest): Response {
         validator.validate(createRequest)
 
@@ -43,24 +69,4 @@ class FileDbDataMapper(val validator: IDataValidator) : IFileDbDataMapper {
             fileDb.data.size.toLong()
         )
     }*/
-
-    override fun fileDownloadUri(fileId: String): String {
-        validator.validate(fileId)
-
-        return ServletUriComponentsBuilder
-            .fromCurrentContextPath()
-            .path("/files/")
-            .path(fileId)
-            .toUriString()
-    }
-
-    override fun asFileDb(file: MultipartFile): FileDb {
-        validator.validate(file)
-
-        return FileDb(
-            name = file.originalFilename,
-            type = file.contentType,
-            data = file.bytes,
-        )
-    }
 }

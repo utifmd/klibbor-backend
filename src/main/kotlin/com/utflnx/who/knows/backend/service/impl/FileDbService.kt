@@ -5,6 +5,8 @@ import com.utflnx.who.knows.backend.mapper.IFileDbDataMapper
 import com.utflnx.who.knows.backend.model.file.Response
 import com.utflnx.who.knows.backend.repository.IFileDbRepository
 import com.utflnx.who.knows.backend.service.IFileDbService
+import com.utflnx.who.knows.backend.validation.NotFoundException
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
@@ -29,8 +31,24 @@ class FileDbService(
         }
     }
 
+    @Throws(IOException::class)
+    override fun create(files: List<MultipartFile>): Stream<Response> {
+        val filesDb = mapper.asFilesDb(files)
+        val list = repos.saveAll(filesDb).let {
+            mapper.asResponse(it)
+        }
+
+        return list.stream()
+    }
+
+    override fun delete(id: String) {
+        val fileDb = repos.findByIdOrNull(id) ?: throw NotFoundException()
+
+        repos.delete(fileDb)
+    }
+
     override fun read(id: String): Response {
-        val fileDb = repos.findById(id).get()
+        val fileDb = repos.findByIdOrNull(id) ?: throw NotFoundException()
 
         return mapper.asResponse(fileDb)
     }
