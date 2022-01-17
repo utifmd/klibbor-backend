@@ -12,6 +12,7 @@ import com.utflnx.who.knows.backend.service.IUserService
 import com.utflnx.who.knows.backend.validation.InvalidEmailException
 import com.utflnx.who.knows.backend.validation.InvalidPasswordException
 import com.utflnx.who.knows.backend.validation.NotFoundException
+import com.utflnx.who.knows.backend.validation.UserExistException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -24,12 +25,19 @@ class UserService(
     val mapper: IUserDataMapper): IUserService { // @Query("SELECT * FROM USER INNER JOIN ...") // override fun readExplore(): Response { }
 
     override fun create(createRequest: CreateRequest): Response {
-        val user = mapper.toUser(createRequest)
+        val userExist = createRequest.email?.let { repository.findByEmail(it) }
 
-        user.apply { createdAt = Date() }
+        if (userExist != null){
 
-        repository.save(user)
-        return mapper.toResponse(user)
+            throw UserExistException()
+        } else {
+
+            val user = mapper.toUser(createRequest)
+            user.apply { createdAt = Date() }
+
+            repository.save(user)
+            return mapper.toResponse(user)
+        }
     }
 
     override fun read(readRequest: String): Response {

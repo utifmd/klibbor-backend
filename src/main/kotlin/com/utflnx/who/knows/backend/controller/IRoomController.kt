@@ -12,4 +12,5 @@ interface IRoomController {
     fun updateRoom(id: String, updateRequest: UpdateRequest): WebResponse<Response>
     fun deleteRoom(id: String): WebResponse<String>
     fun listRoom(page: Int, size: Int): WebResponse<List<Response>>
+    fun listRoom(userId: String): WebResponse<List<Response>>
 }

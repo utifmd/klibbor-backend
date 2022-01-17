@@ -1,5 +1,6 @@
 package com.utflnx.who.knows.backend.service.impl
 
+import com.utflnx.who.knows.backend.entity.Room
 import com.utflnx.who.knows.backend.mapper.IRoomDataMapper
 import com.utflnx.who.knows.backend.model.ListRequest
 import com.utflnx.who.knows.backend.model.room.CreateRequest
@@ -56,6 +57,16 @@ class RoomService(
 
         val pagedRoom = repository.findAll(PageRequest.of(listRequest.page, listRequest.size))
         val rooms = pagedRoom.get().collect(Collectors.toList())
+
+        return rooms.map {
+            mapper.toResponse(it)
+        }
+    }
+
+    override fun list(userId: String): List<Response> {
+        mapper.validate(userId)
+
+        val rooms = repository.findAllByUserId(userId)
 
         return rooms.map {
             mapper.toResponse(it)

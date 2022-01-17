@@ -10,6 +10,7 @@ data class Response(
     val phone: String,
     val username: String,
     val password: String,
+    val profileUrl: String,
     val createdAt: Date,
     val updatedAt: Date? // , val room: List<Room>?
 )

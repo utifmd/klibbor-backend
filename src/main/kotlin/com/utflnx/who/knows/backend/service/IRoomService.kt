@@ -11,4 +11,5 @@ interface IRoomService {
     fun update(id: String, updateRequest: UpdateRequest): Response
     fun delete(id: String)
     fun list(listRequest: ListRequest): List<Response>
+    fun list(userId: String): List<Response>
 }

@@ -16,12 +16,13 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
         validate(createRequest)
 
         return User(
-            id = createRequest.userId!!,
-            fullName = createRequest.fullName!!,
-            email = createRequest.email!!,
-            phone = createRequest.phone!!,
-            username = createRequest.username!!,
-            password = createRequest.password!!,
+            id = createRequest.userId ?: "",
+            fullName = createRequest.fullName ?: "",
+            email = createRequest.email ?: "",
+            phone = createRequest.phone ?: "",
+            username = createRequest.username ?: "",
+            password = createRequest.password ?: "",
+            profileUrl = createRequest.profileUrl ?: "",
             createdAt = Date(),
             updatedAt = null //, rooms = emptyList()
         )
@@ -31,11 +32,12 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
         validate(updateRequest)
 
         current.apply {
-            fullName = updateRequest.fullName!!
-            email = updateRequest.email!!
-            phone = updateRequest.phone!!
-            username = updateRequest.username!!
-            password = updateRequest.password!!
+            fullName = updateRequest.fullName ?: ""
+            email = updateRequest.email ?: ""
+            phone = updateRequest.phone ?: ""
+            username = updateRequest.username ?: ""
+            password = updateRequest.password ?: ""
+            profileUrl = updateRequest.profileUrl ?: ""
             updatedAt = Date()
         }
 
@@ -50,6 +52,7 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
             phone = user.phone,
             username = user.username,
             password = user.password,
+            profileUrl = user.profileUrl,
             createdAt = user.createdAt,
             updatedAt = user.updatedAt //, room = user.rooms
         )

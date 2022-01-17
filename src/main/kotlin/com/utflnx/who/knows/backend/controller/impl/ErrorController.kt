@@ -52,7 +52,7 @@ class ErrorController: IErrorController {
     override fun handleInvalidMultipart(exception: MultipartException): WebResponse<String> {
         return WebResponse(
             code = 400,
-            status = "Bad Request",
+            status = "BAD REQUEST",
             data = exception.message ?: "MultipartException"
         )
     }
@@ -60,9 +60,19 @@ class ErrorController: IErrorController {
     @ExceptionHandler(value = [ InvalidEmailException::class ])
     override fun handleInvalidEmail(exception: InvalidEmailException): WebResponse<String> {
         return WebResponse(
+            code = 404,
+            status = "NOT FOUND",
+            data = exception.message ?: "User does not exist."
+        )
+    }
+
+    @ExceptionHandler(value = [UserExistException::class])
+    override fun handleUserExist(exception: UserExistException): WebResponse<String> {
+
+        return WebResponse(
             code = 400,
             status = "BAD REQUEST",
-            data = exception.message ?: "User does not exist."
+            data = exception.message ?: "User exist"
         )
     }
 

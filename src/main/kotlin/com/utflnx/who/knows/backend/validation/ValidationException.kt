@@ -7,6 +7,8 @@ class UnauthorizedException: Exception()
 
 class InvalidEmailException: Exception()
 
+class UserExistException: Exception()
+
 class InvalidPasswordException: Exception()
 
 class InvalidMaxSizeException: Exception()

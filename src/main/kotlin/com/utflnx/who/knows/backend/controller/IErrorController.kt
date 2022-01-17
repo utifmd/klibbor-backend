@@ -14,6 +14,7 @@ interface IErrorController {
 
     fun handleInvalidMultipart(exception: MultipartException): WebResponse<String>
     fun handleInvalidEmail(exception: InvalidEmailException): WebResponse<String>
+    fun handleUserExist(exception: UserExistException): WebResponse<String>
     fun handleInvalidPassword(exception: InvalidPasswordException): WebResponse<String>
     fun handleInvalidPassword(exception: MaxUploadSizeExceededException): WebResponse<String>
 }

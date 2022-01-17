@@ -9,7 +9,7 @@ data class Response(
     val userId: String,
     val minute: Int,
     val title: String,
-    val desc: String,
+    val description: String,
     val expired: Boolean,
     val createdAt: Date,
     val updatedAt: Date?, // val user: User?

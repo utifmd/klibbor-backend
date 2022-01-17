@@ -1,21 +1,24 @@
 package com.utflnx.who.knows.backend.model.user
 
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 data class UpdateRequest(
-    @field:NotBlank
+    @field:NotNull
     val fullName: String?,
 
-    @field:NotBlank
+    @field:NotNull
     val email: String?,
 
-    @field:NotBlank //@field:NotNull @field:Min(value = 0)
+    @field:NotNull //@field:NotNull @field:Min(value = 0)
     val phone: String?,
 
-    @field:NotBlank
+    @field:NotNull
     val username: String?,
 
-    @field:NotBlank
-    val password: String?
+    @field:NotNull
+    val password: String?,
 
+    @field:NotNull
+    val profileUrl: String?
 )

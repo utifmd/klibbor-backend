@@ -37,7 +37,7 @@ class FileDbController(val service: IFileDbService): IFileDbController {
 
         return WebResponse(
             code = 200,
-            status = "ok",
+            status = "OK",
             data = response
         )
     }

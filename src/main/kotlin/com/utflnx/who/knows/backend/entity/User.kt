@@ -6,7 +6,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "users")
 data class User(
-    @Id
+    @Id // @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "userId")
     val id: String,
 
@@ -24,6 +24,9 @@ data class User(
 
     @Column(name = "password")
     var password: String,
+
+    @Column(name = "profileUrl")
+    var profileUrl: String,
 
     @Column(name = "createdAt")
     var createdAt: Date,
