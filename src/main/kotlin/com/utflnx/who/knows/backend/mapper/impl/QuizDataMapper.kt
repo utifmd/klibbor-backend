@@ -15,7 +15,7 @@ class QuizDataMapper(val validator: IDataValidator): IQuizDataMapper {
         validate(createRequest)
 
         return Quiz(
-            createRequest.id ?: "",
+            createRequest.quizId ?: "",
             createRequest.roomId ?: "",
             createRequest.images ?: emptyList(),
             createRequest.question ?: "",
@@ -44,7 +44,7 @@ class QuizDataMapper(val validator: IDataValidator): IQuizDataMapper {
 
     override fun toResponse(quiz: Quiz): Response {
         return Response(
-            quiz.id,
+            quiz.quizId,
             quiz.roomId,
             quiz.images,
             quiz.question,

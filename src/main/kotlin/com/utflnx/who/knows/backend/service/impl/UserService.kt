@@ -1,6 +1,5 @@
 package com.utflnx.who.knows.backend.service.impl
 
-import com.utflnx.who.knows.backend.entity.User
 import com.utflnx.who.knows.backend.mapper.IUserDataMapper
 import com.utflnx.who.knows.backend.model.user.CreateRequest
 import com.utflnx.who.knows.backend.model.ListRequest
@@ -12,7 +11,7 @@ import com.utflnx.who.knows.backend.service.IUserService
 import com.utflnx.who.knows.backend.validation.InvalidEmailException
 import com.utflnx.who.knows.backend.validation.InvalidPasswordException
 import com.utflnx.who.knows.backend.validation.NotFoundException
-import com.utflnx.who.knows.backend.validation.UserExistException
+import com.utflnx.who.knows.backend.validation.DataExistException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -21,23 +20,23 @@ import java.util.stream.Collectors
 
 @Service
 class UserService(
-    val repository: IUserRepository, // @Autowired // lateinit var mapper: IUserDataMapper
-    val mapper: IUserDataMapper): IUserService { // @Query("SELECT * FROM USER INNER JOIN ...") // override fun readExplore(): Response { }
+    val repository: IUserRepository,
+    val mapper: IUserDataMapper): IUserService {
 
     override fun create(createRequest: CreateRequest): Response {
-        val userExist = createRequest.email?.let { repository.findByEmail(it) }
+        val user = mapper.toUser(createRequest)
 
-        if (userExist != null){
+        if (repository.existsById(user.userId))
+            throw DataExistException()
 
-            throw UserExistException()
-        } else {
+        if (repository.findByEmailOrNull(user.email) != null)
+            throw DataExistException()
 
-            val user = mapper.toUser(createRequest)
-            user.apply { createdAt = Date() }
+        user.apply { createdAt = Date() }
 
-            repository.save(user)
-            return mapper.toResponse(user)
-        }
+        repository.save(user)
+
+        return mapper.toResponse(user)
     }
 
     override fun read(readRequest: String): Response {
@@ -74,7 +73,7 @@ class UserService(
     override fun signIn(loginRequest: LoginRequest): Response {
         mapper.validate(loginRequest)
 
-        val current = repository.findByEmail(loginRequest.email)
+        val current = repository.findByEmailOrPhoneOrUnameOrNull(loginRequest.payload)
             ?: throw InvalidEmailException()
 
         if (current.password != loginRequest.password)
@@ -83,3 +82,5 @@ class UserService(
         return mapper.toResponse(current)
     }
 }
+// @Autowired // lateinit var mapper: IUserDataMapper
+// @Query("SELECT * FROM USER INNER JOIN ...") // override fun readExplore(): Response { }

@@ -44,7 +44,7 @@ class RoomDataMapper(val validator: DataValidator): IRoomDataMapper {
 
     override fun toResponse(room: Room): Response {
         return Response(
-            room.id,
+            room.roomId,
             room.userId,
             room.minute,
             room.title,

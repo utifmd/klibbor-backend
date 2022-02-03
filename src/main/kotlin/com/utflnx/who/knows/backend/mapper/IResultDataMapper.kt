@@ -10,5 +10,4 @@ interface IResultDataMapper {
     fun toResult(current: Result, updateRequest: UpdateRequest): Result
     fun toResponse(result: Result): Response
     fun validate(any: Any)
-
 }

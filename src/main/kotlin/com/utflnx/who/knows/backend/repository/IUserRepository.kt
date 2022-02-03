@@ -7,11 +7,15 @@ import org.springframework.data.repository.query.Param
 
 interface IUserRepository: JpaRepository<User, String> {
 
-    @Query("SELECT usr FROM User usr WHERE usr.username = :username")
-    fun findByUsername(
-        @Param("username") username: String): User?
-
     @Query("SELECT usr FROM User usr WHERE usr.email = :email")
-    fun findByEmail(
+    fun findByEmailOrNull(
         @Param("email") email: String): User?
+
+    @Query("SELECT usr FROM User usr WHERE " +
+            "usr.email = :payload OR " +
+            "usr.phone = :payload OR " +
+            "usr.username = :payload")
+
+    fun findByEmailOrPhoneOrUnameOrNull(
+        @Param("payload") payload: String): User?
 }

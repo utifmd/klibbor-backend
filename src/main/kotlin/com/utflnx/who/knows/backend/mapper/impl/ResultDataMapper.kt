@@ -42,7 +42,7 @@ class ResultDataMapper(val validator: IDataValidator): IResultDataMapper {
 
     override fun toResponse(result: Result): Response {
         return Response(
-            result.id,
+            result.resultId,
             //result.participantId,
             result.roomId,
             result.userId,

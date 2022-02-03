@@ -16,7 +16,7 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
         validate(createRequest)
 
         return User(
-            id = createRequest.userId ?: "",
+            userId = createRequest.userId ?: "",
             fullName = createRequest.fullName ?: "",
             email = createRequest.email ?: "",
             phone = createRequest.phone ?: "",
@@ -24,7 +24,7 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
             password = createRequest.password ?: "",
             profileUrl = createRequest.profileUrl ?: "",
             createdAt = Date(),
-            updatedAt = null //, rooms = emptyList()
+            updatedAt = null, //, rooms = emptyList() participants = emptyList()
         )
     }
 
@@ -46,7 +46,7 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
 
     override fun toResponse(user: User): Response{
         return Response(
-            userId = user.id,
+            userId = user.userId,
             fullName = user.fullName,
             email = user.email,
             phone = user.phone,
@@ -54,7 +54,8 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
             password = user.password,
             profileUrl = user.profileUrl,
             createdAt = user.createdAt,
-            updatedAt = user.updatedAt //, room = user.rooms
+            updatedAt = user.updatedAt/*,
+            participants = user.participants*/
         )
     }
 

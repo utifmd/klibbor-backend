@@ -15,7 +15,7 @@ class ParticipantDataMapper(val validator: IDataValidator): IParticipantDataMapp
         validate(createRequest)
 
         return Participant(
-            createRequest.id ?: "",
+            createRequest.participantId ?: "",
             createRequest.roomId ?: "",
             createRequest.userId ?: "",
             createRequest.currentPage ?: "",
@@ -23,7 +23,7 @@ class ParticipantDataMapper(val validator: IDataValidator): IParticipantDataMapp
             createRequest.expired ?: false,
             Date(),
             updatedAt = null,
-            //results = emptyList()
+            user = null //results = emptyList()
         )
     }
 
@@ -41,8 +41,9 @@ class ParticipantDataMapper(val validator: IDataValidator): IParticipantDataMapp
     }
 
     override fun toResponse(participant: Participant): Response {
+
         return Response(
-            participant.id,
+            participant.participantId,
             participant.roomId,
             participant.userId,
             participant.currentPage,
@@ -50,7 +51,7 @@ class ParticipantDataMapper(val validator: IDataValidator): IParticipantDataMapp
             participant.expired,
             participant.createdAt,
             participant.updatedAt,
-            //participant.results
+            participant.user
         )
     }
 

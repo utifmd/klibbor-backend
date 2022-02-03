@@ -6,9 +6,9 @@ import javax.persistence.*
 @Entity
 @Table(name = "users")
 data class User(
-    @Id // @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Id
     @Column(name = "userId")
-    val id: String,
+    var userId: String,
 
     @Column(name = "fullName")
     var fullName: String,
@@ -32,5 +32,9 @@ data class User(
     var createdAt: Date,
 
     @Column(name = "updatedAt")
-    var updatedAt: Date? //, @JoinColumn(name = "userId") @OneToMany var rooms: List<Room>?
+    var updatedAt: Date?,
+
+    /*@OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+    @JoinColumn(name = "userId")
+    var participants: List<Participant>,*/
 )

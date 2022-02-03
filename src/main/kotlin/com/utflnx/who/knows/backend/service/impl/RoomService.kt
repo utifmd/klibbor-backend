@@ -1,13 +1,15 @@
 package com.utflnx.who.knows.backend.service.impl
 
-import com.utflnx.who.knows.backend.entity.Room
 import com.utflnx.who.knows.backend.mapper.IRoomDataMapper
 import com.utflnx.who.knows.backend.model.ListRequest
 import com.utflnx.who.knows.backend.model.room.CreateRequest
 import com.utflnx.who.knows.backend.model.room.Response
 import com.utflnx.who.knows.backend.model.room.UpdateRequest
 import com.utflnx.who.knows.backend.repository.IRoomRepository
+import com.utflnx.who.knows.backend.repository.IUserRepository
 import com.utflnx.who.knows.backend.service.IRoomService
+import com.utflnx.who.knows.backend.validation.DataExistException
+import com.utflnx.who.knows.backend.validation.DataNotFoundException
 import com.utflnx.who.knows.backend.validation.NotFoundException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
@@ -17,20 +19,28 @@ import java.util.stream.Collectors
 
 @Service
 class RoomService(
-    val repository: IRoomRepository,
+    val reposRoom: IRoomRepository,
+    val reposUser: IUserRepository,
     val mapper: IRoomDataMapper): IRoomService {
 
     override fun create(createRequest: CreateRequest): Response {
         val room = mapper.toRoom(createRequest)
 
+        if (reposRoom.existsById(room.roomId))
+            throw DataExistException()
+
+        reposUser.findByIdOrNull(room.userId) ?:
+            throw DataNotFoundException("userId")
+
         room.apply { createdAt = Date() }
 
-        repository.save(room)
+        reposRoom.save(room)
+
         return mapper.toResponse(room)
     }
 
     override fun read(readRequest: String): Response {
-        val room = repository.findByIdOrNull(readRequest) ?: throw NotFoundException()
+        val room = reposRoom.findByIdOrNull(readRequest) ?: throw NotFoundException()
 
 //        room.user?.rooms = null
 
@@ -38,24 +48,24 @@ class RoomService(
     }
 
     override fun update(id: String, updateRequest: UpdateRequest): Response {
-        val room = repository.findByIdOrNull(id) ?: throw NotFoundException()
+        val room = reposRoom.findByIdOrNull(id) ?: throw NotFoundException()
         val updatedRoom = mapper.toRoom(room, updateRequest)
 
-        repository.save(updatedRoom)
+        reposRoom.save(updatedRoom)
 
         return mapper.toResponse(updatedRoom)
     }
 
     override fun delete(id: String) {
-        val room = repository.findByIdOrNull(id) ?: throw NotFoundException()
+        val room = reposRoom.findByIdOrNull(id) ?: throw NotFoundException()
 
-        repository.delete(room)
+        reposRoom.delete(room)
     }
 
     override fun list(listRequest: ListRequest): List<Response> {
         mapper.validate(listRequest)
 
-        val pagedRoom = repository.findAll(PageRequest.of(listRequest.page, listRequest.size))
+        val pagedRoom = reposRoom.findAll(PageRequest.of(listRequest.page, listRequest.size))
         val rooms = pagedRoom.get().collect(Collectors.toList())
 
         return rooms.map {
@@ -66,7 +76,7 @@ class RoomService(
     override fun list(userId: String): List<Response> {
         mapper.validate(userId)
 
-        val rooms = repository.findAllByUserId(userId)
+        val rooms = reposRoom.findAllByUserId(userId)
 
         return rooms.map {
             mapper.toResponse(it)

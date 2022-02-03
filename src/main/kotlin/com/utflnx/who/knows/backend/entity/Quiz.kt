@@ -8,12 +8,12 @@ import javax.persistence.*
 data class Quiz(
 
     @Id
-    @Column(name = "id")
-    val id: String,
+    @Column(name = "quizId")
+    val quizId: String,
 
     @Column(name = "roomId")
     var roomId: String,
- 
+
     @Column(name = "images")
     @ElementCollection
     var images: List<String>,

@@ -6,7 +6,11 @@ import com.utflnx.who.knows.backend.model.participant.CreateRequest
 import com.utflnx.who.knows.backend.model.participant.Response
 import com.utflnx.who.knows.backend.model.participant.UpdateRequest
 import com.utflnx.who.knows.backend.repository.IParticipantRepository
+import com.utflnx.who.knows.backend.repository.IRoomRepository
+import com.utflnx.who.knows.backend.repository.IUserRepository
 import com.utflnx.who.knows.backend.service.IParticipantService
+import com.utflnx.who.knows.backend.validation.DataExistException
+import com.utflnx.who.knows.backend.validation.DataNotFoundException
 import com.utflnx.who.knows.backend.validation.NotFoundException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
@@ -15,41 +19,53 @@ import java.util.stream.Collectors
 
 @Service
 class ParticipantService(
-    val repository: IParticipantRepository,
+    val reposParticipant: IParticipantRepository,
+    val reposRoom: IRoomRepository,
+    val reposUser: IUserRepository,
     val mapper: IParticipantDataMapper): IParticipantService {
 
     override fun create(createRequest: CreateRequest): Response {
         val participant = mapper.toParticipant(createRequest)
 
-        repository.save(participant)
+        if (reposParticipant.existsById(participant.participantId))
+            throw DataExistException()
+
+        reposRoom.findByIdOrNull(participant.roomId) ?:
+            throw DataNotFoundException("roomId")
+
+        reposUser.findByIdOrNull(participant.userId) ?:
+            throw DataNotFoundException("userId")
+
+        reposParticipant.save(participant)
+
         return mapper.toResponse(participant)
     }
 
     override fun read(id: String): Response {
-        val participant = repository.findByIdOrNull(id) ?: throw NotFoundException()
+        val participant = reposParticipant.findByIdOrNull(id) ?: throw NotFoundException()
 
         return mapper.toResponse(participant)
     }
 
     override fun update(id: String, updateRequest: UpdateRequest): Response {
-        val current = repository.findByIdOrNull(id) ?: throw NotFoundException()
+        val current = reposParticipant.findByIdOrNull(id) ?: throw NotFoundException()
         val updatedParticipant = mapper.toParticipant(current, updateRequest)
 
-        repository.save(updatedParticipant)
+        reposParticipant.save(updatedParticipant)
 
         return mapper.toResponse(updatedParticipant)
     }
 
     override fun delete(id: String) {
-        val participant = repository.findByIdOrNull(id) ?: throw NotFoundException()
+        val participant = reposParticipant.findByIdOrNull(id) ?: throw NotFoundException()
 
-        repository.delete(participant)
+        reposParticipant.delete(participant)
     }
 
     override fun list(listRequest: ListRequest): List<Response> {
         mapper.validate(listRequest)
 
-        val pagedParticipant = repository.findAll(PageRequest.of(listRequest.page, listRequest.size))
+        val pagedParticipant = reposParticipant.findAll(PageRequest.of(listRequest.page, listRequest.size))
         val participants = pagedParticipant.get().collect(Collectors.toList())
 
         return participants.map { mapper.toResponse(it) }

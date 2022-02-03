@@ -9,10 +9,7 @@ data class Result(
 
     @Id
     @Column(name = "resultId")
-    val id: String,
-
-//    @Column(name = "participantId")
-//    var participantId: String,
+    val resultId: String,
 
     @Column(name = "roomId")
     var roomId: String,

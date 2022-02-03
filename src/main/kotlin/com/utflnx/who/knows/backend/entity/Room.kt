@@ -9,7 +9,7 @@ import javax.persistence.*
 data class Room(
     @Id
     @Column(name = "roomId")
-    val id: String,
+    val roomId: String,
 
     @Column(name = "userId")
     var userId: String,

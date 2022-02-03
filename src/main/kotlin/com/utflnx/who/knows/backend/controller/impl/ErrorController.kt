@@ -35,7 +35,7 @@ class ErrorController: IErrorController {
         return WebResponse(
             code = 404,
             status = "NOT FOUND",
-            data = exception.message ?: "Not Found Exception"
+            data = exception.message ?: "Not Found"
         )
     }
 
@@ -66,13 +66,23 @@ class ErrorController: IErrorController {
         )
     }
 
-    @ExceptionHandler(value = [UserExistException::class])
-    override fun handleUserExist(exception: UserExistException): WebResponse<String> {
+    @ExceptionHandler(value = [DataExistException::class])
+    override fun handleDataExist(exception: DataExistException): WebResponse<String> {
 
         return WebResponse(
             code = 400,
             status = "BAD REQUEST",
-            data = exception.message ?: "User exist"
+            data = exception.message ?: "Data already exist"
+        )
+    }
+
+    @ExceptionHandler(value = [DataNotFoundException::class])
+    override fun handleNotFoundException(exception: DataNotFoundException): WebResponse<String> {
+
+        return WebResponse(
+            code = 404,
+            status = "NOT FOUND",
+            data = "${exception.message} not found"
         )
     }
 
