@@ -1,13 +1,17 @@
 package com.utflnx.who.knows.backend.entity
 
 import com.fasterxml.jackson.annotation.JsonBackReference
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonManagedReference
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import org.hibernate.annotations.Filter
+import org.hibernate.annotations.FilterJoinTable
+import org.hibernate.annotations.FilterJoinTables
 import java.util.*
 import javax.persistence.*
 
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties(value = [
+    "phone", "email", "password", "participants", "createdAt", "updatedAt"])
 data class User(
     @Id
     @Column(name = "userId")
@@ -37,7 +41,7 @@ data class User(
     @Column(name = "updatedAt")
     var updatedAt: Date?,
 
-    @JsonBackReference
+    //@JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
     @JoinColumn(name = "userId")
     var participants: List<Participant>
