@@ -1,5 +1,6 @@
 package com.utflnx.who.knows.backend.entity
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import java.util.*
 import javax.persistence.*
 
@@ -32,6 +33,7 @@ data class Participant(
     @Column(name = "updatedAt")
     var updatedAt: Date?,
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "userId", insertable = false, updatable = false)
     var user: User?

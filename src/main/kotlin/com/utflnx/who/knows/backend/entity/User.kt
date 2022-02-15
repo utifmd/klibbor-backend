@@ -1,5 +1,8 @@
 package com.utflnx.who.knows.backend.entity
 
+import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import java.util.*
 import javax.persistence.*
 
@@ -34,7 +37,16 @@ data class User(
     @Column(name = "updatedAt")
     var updatedAt: Date?,
 
-    /*@OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+    @JsonBackReference
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
     @JoinColumn(name = "userId")
+    var participants: List<Participant>
+
+    /*
+    @OneToMany(
+        mappedBy = "userId",
+        orphanRemoval = true,
+        fetch = FetchType.LAZY,
+        cascade = [CascadeType.ALL])
     var participants: List<Participant>,*/
 )

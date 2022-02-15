@@ -13,6 +13,6 @@ data class Response(
     val password: String,
     val profileUrl: String,
     val createdAt: Date,
-    val updatedAt: Date?
-    /*val participants: List<Participant>*/
+    val updatedAt: Date?,
+    val participants: List<Participant>
 )
