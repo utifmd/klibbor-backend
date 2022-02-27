@@ -13,7 +13,7 @@ import org.springframework.data.repository.query.Param
  **/
 interface INotificationRepository: JpaRepository<Notification, String>{
 
-    @Query("SELECT ntf FROM Notification ntf WHERE ntf.recipientId = :recipientId")
+    @Query("SELECT ntf FROM Notification ntf WHERE ntf.recipientId = :recipientId ORDER BY ntf.createdAt ASC")
     fun findAllByRecipientIdOrNull(
         @Param("recipientId") recipientId: String, pageable: Pageable): Page<Notification>
 

@@ -1,5 +1,6 @@
 package com.utflnx.who.knows.backend.model.quiz
 
+import com.utflnx.who.knows.backend.entity.User
 import java.util.*
 
 data class Response(
@@ -11,5 +12,6 @@ data class Response(
     val answer: String,
     val createdBy: String,
     val createdAt: Date,
-    val updatedAt: Date?
+    val updatedAt: Date?,
+    val user: User?
 )

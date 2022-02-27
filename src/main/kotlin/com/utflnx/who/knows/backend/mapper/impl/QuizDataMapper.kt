@@ -23,6 +23,7 @@ class QuizDataMapper(val validator: IDataValidator): IQuizDataMapper {
             createRequest.answer ?: "",
             createRequest.createdBy ?: "",
             Date(),
+            null,
             null
         )
     }
@@ -52,7 +53,8 @@ class QuizDataMapper(val validator: IDataValidator): IQuizDataMapper {
             quiz.answer,
             quiz.createdBy,
             quiz.createdAt,
-            quiz.updatedAt
+            quiz.updatedAt,
+            quiz.user
         )
     }
 

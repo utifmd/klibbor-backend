@@ -35,5 +35,9 @@ data class Quiz(
     var createdAt: Date,
 
     @Column(name = "updatedAt")
-    var updatedAt: Date?
+    var updatedAt: Date?,
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "createdBy", referencedColumnName = "userId", insertable = false, updatable = false)
+    var user: User?
 )

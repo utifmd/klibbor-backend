@@ -1,5 +1,6 @@
 package com.utflnx.who.knows.backend.repository
 
+import com.utflnx.who.knows.backend.entity.Notification
 import com.utflnx.who.knows.backend.entity.Room
 import com.utflnx.who.knows.backend.entity.User
 import org.springframework.data.domain.Page
@@ -13,6 +14,10 @@ interface IRoomRepository: JpaRepository<Room, String> {
     fun findAllByUserId(
         @Param("userId") userId: String): List<Room>
 
+   /* @Query("SELECT rm FROM Room rm ORDER BY rm.createdAt ASC")
+    fun findAllBy(
+        @Param("recipientId") recipientId: String, pageable: Pageable
+    ): Page<Room>*/
     /*@Query(value = "SELECT rm FROM Room rm WHERE rm.userId = :userId")
     fun findAllByUserId(
         @Param("userId") userId: String,

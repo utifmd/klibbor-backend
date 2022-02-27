@@ -1,5 +1,6 @@
 package com.utflnx.who.knows.backend.service.impl
 
+import com.utflnx.who.knows.backend.entity.Participant
 import com.utflnx.who.knows.backend.mapper.IParticipantDataMapper
 import com.utflnx.who.knows.backend.model.ListRequest
 import com.utflnx.who.knows.backend.model.participant.CreateRequest
@@ -65,9 +66,23 @@ class ParticipantService(
     override fun list(listRequest: ListRequest): List<Response> {
         mapper.validate(listRequest)
 
-        val pagedParticipant = reposParticipant.findAll(PageRequest.of(listRequest.page, listRequest.size))
+        val pagedParticipant = reposParticipant
+            .findAll(PageRequest.of(listRequest.page, listRequest.size))
+
+        return pagedParticipant
+            .map { mapper.toResponse(it) }
+            .sortedByDescending { participant -> pagedParticipant
+                .count { it.userId == participant.userId }
+            }
+            .distinctBy { it.userId }
+
+        //return sorted
+
+        /*val pagedParticipant = reposParticipant
+            .findAllByUserIdCount(PageRequest.of(listRequest.page, listRequest.size))
+
         val participants = pagedParticipant.get().collect(Collectors.toList())
 
-        return participants.map { mapper.toResponse(it) }
+        return participants.map(mapper::toResponse)*/
     }
 }

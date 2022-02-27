@@ -60,10 +60,9 @@ class QuizService(
     override fun list(listRequest: ListRequest): List<Response> {
         mapper.validate(listRequest)
 
-        val pagedQuestions = reposQuiz.findAll(PageRequest.of(listRequest.page, listRequest.size))
-        val questions = pagedQuestions.get().collect(Collectors.toList())
+        val questions = reposQuiz.findAll(PageRequest.of(listRequest.page, listRequest.size))
+        //val questions = pagedQuestions.get().collect(Collectors.toList())
 
-        return questions.map { mapper.toResponse(it) }
+        return questions.shuffled().map { mapper.toResponse(it) }
     }
-
 }
