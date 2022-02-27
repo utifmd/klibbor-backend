@@ -76,8 +76,7 @@ class RoomService(
         mapper.validate(listRequest)
 
         return reposRoom
-            .findAll(PageRequest.of(listRequest.page, listRequest.size))
-            .map { mapper.toResponse(it) }
+            .findAll(PageRequest.of(listRequest.page, listRequest.size)).map(mapper::toResponse)
             .sortedByDescending { it.participants.size }
 
         //val rooms = pagedRoom.stream().collect(Collectors.toList()) return rooms

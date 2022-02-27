@@ -54,18 +54,22 @@ class FileDbService(
     }
 
     override fun list(ids: List<String>): Stream<Response> {
-        val list = repos.findAllById(ids).stream()
 
-        return list.map {
+        return repos.findAllById(ids).map(mapper::asResponse).stream()
+        /*val list = */
+        /*return list.map {
             mapper.asResponse(it)
-        }
+        }*/
     }
 
     override fun list(): Stream<Response> {
-        val list = repos.findAll().stream()
+        return repos.findAll().map(mapper::asResponse).stream()
+    /*{
+            (it)
+        }*//*.stream()
 
         return list.map {
             mapper.asResponse(it)
-        }
+        }*/
     }
 }

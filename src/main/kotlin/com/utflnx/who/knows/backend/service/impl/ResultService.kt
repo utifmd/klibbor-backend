@@ -12,6 +12,7 @@ import com.utflnx.who.knows.backend.validation.DataExistException
 import com.utflnx.who.knows.backend.validation.DataNotFoundException
 import com.utflnx.who.knows.backend.validation.NotFoundException
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
@@ -66,6 +67,7 @@ class ResultService(
         val pagedResult = reposResult.findAll(PageRequest.of(listRequest.page, listRequest.size))
         val results = pagedResult.get().collect(Collectors.toList())
 
-        return results.map { mapper.toResponse(it) }
+        return results.map(mapper::toResponse)
+            .sortedByDescending { it.createdAt }
     }
 }

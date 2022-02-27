@@ -63,6 +63,6 @@ class QuizService(
         val questions = reposQuiz.findAll(PageRequest.of(listRequest.page, listRequest.size))
         //val questions = pagedQuestions.get().collect(Collectors.toList())
 
-        return questions.shuffled().map { mapper.toResponse(it) }
+        return questions.map(mapper::toResponse).shuffled()
     }
 }

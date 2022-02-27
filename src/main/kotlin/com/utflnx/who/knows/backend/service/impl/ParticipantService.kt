@@ -13,10 +13,9 @@ import com.utflnx.who.knows.backend.service.IParticipantService
 import com.utflnx.who.knows.backend.validation.DataExistException
 import com.utflnx.who.knows.backend.validation.DataNotFoundException
 import com.utflnx.who.knows.backend.validation.NotFoundException
-import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.*
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import java.util.stream.Collectors
 
 @Service
 class ParticipantService(
@@ -65,24 +64,21 @@ class ParticipantService(
 
     override fun list(listRequest: ListRequest): List<Response> {
         mapper.validate(listRequest)
+        val allPages = reposParticipant.findAll()
 
-        val pagedParticipant = reposParticipant
-            .findAll(PageRequest.of(listRequest.page, listRequest.size))
+        val sorted = allPages.sortedByDescending { participant ->
+            allPages.count { it.userId == participant.userId }
+        }
 
-        return pagedParticipant
-            .map { mapper.toResponse(it) }
-            .sortedByDescending { participant -> pagedParticipant
-                .count { it.userId == participant.userId }
-            }
+        val pageable: Pageable = PageRequest.of(
+            listRequest.page, listRequest.size, Sort.unsorted())
+
+        val start = Math.toIntExact(pageable.offset)
+        val end: Int = if (start + pageable.pageSize > allPages.size) allPages.size
+            else start + pageable.pageSize
+
+        return sorted.subList(start, end)
             .distinctBy { it.userId }
-
-        //return sorted
-
-        /*val pagedParticipant = reposParticipant
-            .findAllByUserIdCount(PageRequest.of(listRequest.page, listRequest.size))
-
-        val participants = pagedParticipant.get().collect(Collectors.toList())
-
-        return participants.map(mapper::toResponse)*/
+            .map(mapper::toResponse)
     }
 }

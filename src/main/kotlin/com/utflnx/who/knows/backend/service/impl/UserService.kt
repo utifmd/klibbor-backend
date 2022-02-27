@@ -63,11 +63,10 @@ class UserService(
 
     override fun list(listRequest: ListRequest): List<Response> {
         mapper.validate(listRequest)
+        val page = repository.findAll(
+            PageRequest.of(listRequest.page, listRequest.size)).map(mapper::toResponse)
 
-        val page = repository.findAll(PageRequest.of(listRequest.page, listRequest.size))
-        val users = page.get().collect(Collectors.toList())
-
-        return users.map { mapper.toResponse(it) }
+        return page.get().collect(Collectors.toList())
     }
 
     override fun signIn(loginRequest: LoginRequest): Response {

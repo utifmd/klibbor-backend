@@ -65,11 +65,12 @@ class NotificationService(
     }
 
     override fun list(recipientId: String, listRequest: ListRequest): List<Response> {
-        val pageNotifications = reposNotification
+        val notifications = reposNotification
             .findAllByRecipientIdOrNull(recipientId, PageRequest.of(listRequest.page, listRequest.size))
-
-        val notifications = pageNotifications.get().collect(Collectors.toList())
+        //val notifications = pageNotifications.get().collect(Collectors.toList())
 
         return notifications.map(mapper::toResponse)
+            .sortedByDescending { it.createdAt }
+            .sortedByDescending { it.seen }
     }
 }
