@@ -14,5 +14,6 @@ data class Response(
     val profileUrl: String,
     val createdAt: Date,
     val updatedAt: Date?,
-    val participants: List<Participant>
+    val participants: List<Participant>,
+    val rooms: List<Room>
 )

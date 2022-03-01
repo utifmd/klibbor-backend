@@ -11,7 +11,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "users")
 @JsonIgnoreProperties(value = [
-    "phone", "email", "password", "participants", "createdAt", "updatedAt"])
+    "phone", "email", "password", "participants", "rooms", "createdAt", "updatedAt"])
 data class User(
     @Id
     @Column(name = "userId")
@@ -44,7 +44,11 @@ data class User(
     //@JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
     @JoinColumn(name = "userId")
-    var participants: List<Participant>
+    var participants: List<Participant>,
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+    @JoinColumn(name = "userId")
+    var rooms: List<Room>
 
     /*
     @OneToMany(

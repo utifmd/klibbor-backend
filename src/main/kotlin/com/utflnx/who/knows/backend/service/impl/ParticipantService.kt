@@ -1,6 +1,5 @@
 package com.utflnx.who.knows.backend.service.impl
 
-import com.utflnx.who.knows.backend.entity.Participant
 import com.utflnx.who.knows.backend.mapper.IParticipantDataMapper
 import com.utflnx.who.knows.backend.model.ListRequest
 import com.utflnx.who.knows.backend.model.participant.CreateRequest
@@ -28,6 +27,10 @@ class ParticipantService(
         val participant = mapper.toParticipant(createRequest)
 
         if (reposParticipant.existsById(participant.participantId))
+            throw DataExistException()
+
+        if(reposParticipant.findByRoomIdAndUserIdOrNull(
+                participant.roomId, participant.userId) != null)
             throw DataExistException()
 
         reposRoom.findByIdOrNull(participant.roomId) ?:

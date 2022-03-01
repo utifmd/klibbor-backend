@@ -24,8 +24,9 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
             password = createRequest.password ?: "",
             profileUrl = createRequest.profileUrl ?: "",
             createdAt = Date(),
-            updatedAt = null, //, rooms = emptyList()
-            participants = emptyList()
+            updatedAt = null,
+            participants = emptyList(),
+            rooms = emptyList()
         )
     }
 
@@ -56,7 +57,8 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
             profileUrl = user.profileUrl,
             createdAt = user.createdAt,
             updatedAt = user.updatedAt,
-            participants = user.participants
+            participants = user.participants,
+            rooms = user.rooms
         )
     }
 

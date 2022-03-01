@@ -1,11 +1,13 @@
 package com.utflnx.who.knows.backend.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.util.*
 import javax.persistence.*
 
 @Entity
 @Table(name = "rooms")
+@JsonIgnoreProperties(value = ["createdAt", "updatedAt", "questions", "participants"])
 data class Room(
     @Id
     @Column(name = "roomId")
