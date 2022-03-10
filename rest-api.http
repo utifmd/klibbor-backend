@@ -147,20 +147,20 @@
 # Accept: application/json
 
 # GET http://127.0.0.1:8080/api/questions
-GET https://who-knows-backend.herokuapp.com/api/questions?size=3&page=0
-X-Api-Key: utif.pages.dev
-Accept: application/json
+# GET https://who-knows-backend.herokuapp.com/api/questions?size=3&page=0
+# X-Api-Key: utif.pages.dev
+# Accept: application/json
 
 ### ROOM ###
 
-# POST https://who-knows-backend.herokuapp.com/api/rooms/
+# POST http://127.0.0.1:8080/api/rooms/
 # X-Api-Key: utif.pages.dev
 # Content-Type: application/json
 # Accept: application/json
 
 # {
-#   "roomId": "B00022",
-#   "userId": "A00002",
+#   "roomId": "B00001",
+#   "userId": "A00011",
 #   "minute": "3000",
 #   "title": "Kelas Belajar Accounting",
 #   "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Id aliquid dignissimos facere reiciendis ipsam praesentium cupiditate magnam facilis minus, ullam ex beatae sequi! Cupiditate ex pariatur aliquam, animi iure similique.",
@@ -188,8 +188,8 @@ Accept: application/json
 # Content-Type: application/json
 # Accept: application/json
 
-# GET http://127.0.0.1:8080/api/rooms
-GET https://who-knows-backend.herokuapp.com/api/rooms?size=3&page=0
+GET http://127.0.0.1:8080/api/results/with_args?roomId=ROM-1001&userId=USR-9da84c9b-4d46-4997-ae1e-48927cb68d20
+# GET https://who-knows-backend.herokuapp.com/api/rooms?size=3&page=0
 X-Api-Key: utif.pages.dev
 Accept: application/json
 

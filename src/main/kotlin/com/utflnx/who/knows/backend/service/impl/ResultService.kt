@@ -6,6 +6,7 @@ import com.utflnx.who.knows.backend.model.result.CreateRequest
 import com.utflnx.who.knows.backend.model.result.Response
 import com.utflnx.who.knows.backend.model.result.UpdateRequest
 import com.utflnx.who.knows.backend.repository.IResultRepository
+import com.utflnx.who.knows.backend.repository.IRoomRepository
 import com.utflnx.who.knows.backend.repository.IUserRepository
 import com.utflnx.who.knows.backend.service.IResultService
 import com.utflnx.who.knows.backend.validation.DataExistException
@@ -20,7 +21,7 @@ import java.util.stream.Collectors
 @Service
 class ResultService(
     val reposResult: IResultRepository,
-    val reposRoom: IResultRepository,
+    val reposRoom: IRoomRepository,
     val reposUser: IUserRepository,
     val mapper: IResultDataMapper): IResultService {
 
@@ -37,11 +38,21 @@ class ResultService(
             throw DataNotFoundException("userId")
 
         reposResult.save(result)
+
         return mapper.toResponse(result)
     }
 
     override fun read(resultId: String): Response {
         val result = reposResult.findByIdOrNull(resultId) ?: throw NotFoundException()
+
+        return mapper.toResponse(result)
+    }
+
+    override fun read(roomId: String, userId: String): Response {
+        reposRoom.findByIdOrNull(roomId) ?: throw DataNotFoundException("roomId")
+        reposUser.findByIdOrNull(userId) ?: throw DataNotFoundException("userId")
+
+        val result = reposResult.findByRoomIdAndUserIdOrNull(roomId, userId) ?: throw NotFoundException()
 
         return mapper.toResponse(result)
     }

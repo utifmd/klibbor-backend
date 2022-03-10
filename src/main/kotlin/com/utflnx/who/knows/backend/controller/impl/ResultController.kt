@@ -35,6 +35,19 @@ class ResultController(val service: IResultService): IResultController {
         )
     }
 
+    @GetMapping(value = ["/api/results/with_args"], produces = ["application/json"])
+    override fun readResult(
+        @RequestParam(value = "roomId", defaultValue = "") roomId: String,
+        @RequestParam(value = "userId", defaultValue = "") userId: String): WebResponse<Response> {
+        val response = service.read(roomId, userId)
+
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = response
+        )
+    }
+
     @PutMapping(value = ["/api/results/{resultId}"], produces = ["application/json"], consumes = ["application/json"])
     override fun updateResult(
         @PathVariable("resultId") id: String,

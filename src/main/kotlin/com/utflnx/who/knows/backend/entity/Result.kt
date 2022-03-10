@@ -32,5 +32,10 @@ data class Result(
     var createdAt: Date,
 
     @Column(name = "updatedAt")
-    var updatedAt:Date?
+    var updatedAt:Date?,
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "userId", insertable = false, updatable = false)
+    //@JsonIncludeProperties("profileUrl", "fullName")
+    var user: User?
 )

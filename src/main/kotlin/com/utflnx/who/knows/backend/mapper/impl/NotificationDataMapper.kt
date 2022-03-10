@@ -4,6 +4,7 @@ import com.utflnx.who.knows.backend.entity.Notification
 import com.utflnx.who.knows.backend.mapper.INotificationDataMapper
 import com.utflnx.who.knows.backend.model.notification.CreateRequest
 import com.utflnx.who.knows.backend.model.notification.Response
+import com.utflnx.who.knows.backend.model.notification.UpdateRequest
 import com.utflnx.who.knows.backend.validation.IDataValidator
 import org.springframework.stereotype.Component
 import java.util.*
@@ -30,6 +31,15 @@ class NotificationDataMapper(
             updatedAt = null,
             sender = null
         )
+    }
+
+    override fun toResult(current: Notification, updateRequest: UpdateRequest): Notification {
+        validator.validate(updateRequest)
+
+        return current.apply {
+            event = updateRequest.event
+            seen = updateRequest.seen
+        }
     }
 
     override fun toResponse(notification: Notification): Response {

@@ -23,6 +23,7 @@ class ResultDataMapper(val validator: IDataValidator): IResultDataMapper {
             createRequest.wrongQuiz ?: emptyList(),
             createRequest.score ?: 0,
             Date(),
+            null,
             null
         )
     }
@@ -31,10 +32,10 @@ class ResultDataMapper(val validator: IDataValidator): IResultDataMapper {
         validate(updateRequest)
 
         current.apply {
-                correctQuiz = updateRequest.correctQuiz ?: emptyList()
-                wrongQuiz = updateRequest.wrongQuiz ?: emptyList()
-                score = updateRequest.score
-                updatedAt = Date()
+            correctQuiz = updateRequest.correctQuiz ?: emptyList()
+            wrongQuiz = updateRequest.wrongQuiz ?: emptyList()
+            score = updateRequest.score
+            updatedAt = Date()
         }
 
         return current
@@ -50,7 +51,8 @@ class ResultDataMapper(val validator: IDataValidator): IResultDataMapper {
             result.wrongQuiz,
             result.score ?: 0,
             Date(),
-            result.updatedAt
+            result.updatedAt,
+            result.user
         )
     }
 

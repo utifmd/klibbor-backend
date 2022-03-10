@@ -9,6 +9,7 @@ import com.utflnx.who.knows.backend.model.result.UpdateRequest
 interface IResultService {
     fun create(createRequest: CreateRequest): Response
     fun read(resultId: String): Response
+    fun read(roomId: String, userId: String): Response
     fun update(resultId: String, updateRequest: UpdateRequest): Response
     fun delete(resultId: String)
     fun list(listRequest: ListRequest): List<Response>

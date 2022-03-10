@@ -73,15 +73,20 @@ class ParticipantService(
             allPages.count { it.userId == participant.userId }
         }
 
-        val pageable: Pageable = PageRequest.of(
-            listRequest.page, listRequest.size, Sort.unsorted())
+        val pageable: Pageable = PageRequest.of(listRequest.page, listRequest.size)
 
         val start = Math.toIntExact(pageable.offset)
         val end: Int = if (start + pageable.pageSize > allPages.size) allPages.size
             else start + pageable.pageSize
 
-        return sorted.subList(start, end)
-            .distinctBy { it.userId }
-            .map(mapper::toResponse)
+        return try {
+            sorted.slice(start..end)
+                .distinctBy { it.userId }
+                .map(mapper::toResponse)
+
+        } catch (e: Exception){
+            sorted.distinctBy { it.userId }
+                .map(mapper::toResponse)
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.utflnx.who.knows.backend.mapper.INotificationDataMapper
 import com.utflnx.who.knows.backend.model.ListRequest
 import com.utflnx.who.knows.backend.model.notification.CreateRequest
 import com.utflnx.who.knows.backend.model.notification.Response
+import com.utflnx.who.knows.backend.model.notification.UpdateRequest
 import com.utflnx.who.knows.backend.repository.INotificationRepository
 import com.utflnx.who.knows.backend.repository.IRoomRepository
 import com.utflnx.who.knows.backend.repository.IUserRepository
@@ -49,6 +50,15 @@ class NotificationService(
         val notification = reposNotification.findByIdOrNull(notificationId) ?: throw NotFoundException()
 
         return mapper.toResponse(notification)
+    }
+
+    override fun update(id: String, updateRequest: UpdateRequest): Response {
+        val current = reposNotification.findByIdOrNull(id) ?: throw NotFoundException()
+        val updatedRequest = mapper.toResult(current, updateRequest)
+
+        reposNotification.save(updatedRequest)
+
+        return mapper.toResponse(updatedRequest)
     }
 
     override fun delete(notificationId: String) {

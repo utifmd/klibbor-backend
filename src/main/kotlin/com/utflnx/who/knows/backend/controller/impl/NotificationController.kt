@@ -5,6 +5,7 @@ import com.utflnx.who.knows.backend.model.ListRequest
 import com.utflnx.who.knows.backend.model.WebResponse
 import com.utflnx.who.knows.backend.model.notification.CreateRequest
 import com.utflnx.who.knows.backend.model.notification.Response
+import com.utflnx.who.knows.backend.model.notification.UpdateRequest
 import com.utflnx.who.knows.backend.service.INotificationService
 import org.springframework.web.bind.annotation.*
 
@@ -50,6 +51,19 @@ class NotificationController(
             code = 200,
             status = "OK",
             data = notificationId
+        )
+    }
+
+    @PutMapping(value = ["/api/notifications/{notificationId}"], produces = ["application/json"], consumes = ["application/json"])
+    override fun updateNotification(
+        @PathVariable("notificationId") id: String,
+        @RequestBody updateRequest: UpdateRequest): WebResponse<Response> {
+        val response = service.update(id, updateRequest)
+
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = response
         )
     }
 

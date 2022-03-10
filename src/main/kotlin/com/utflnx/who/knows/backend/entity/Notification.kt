@@ -21,10 +21,10 @@ data class Notification(
     val roomId: String,
 
     @Column(name = "event")
-    val event: String,
+    var event: String,
 
     @Column(name = "seen")
-    val seen: Boolean,
+    var seen: Boolean,
 
     @Column(name = "recipientId")
     val recipientId: String,
