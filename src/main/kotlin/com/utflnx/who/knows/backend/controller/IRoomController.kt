@@ -1,5 +1,6 @@
 package com.utflnx.who.knows.backend.controller
 
+import com.utflnx.who.knows.backend.model.ListRequest
 import com.utflnx.who.knows.backend.model.WebResponse
 import com.utflnx.who.knows.backend.model.room.CreateRequest
 import com.utflnx.who.knows.backend.model.room.Response
@@ -12,5 +13,5 @@ interface IRoomController {
     fun updateRoom(id: String, updateRequest: UpdateRequest): WebResponse<Response>
     fun deleteRoom(id: String): WebResponse<String>
     fun listRoom(page: Int, size: Int): WebResponse<List<Response>>
-    fun listRoom(userId: String): WebResponse<List<Response>>
+    fun listRoom(userId: String, page: Int, size: Int): WebResponse<List<Response>>
 }

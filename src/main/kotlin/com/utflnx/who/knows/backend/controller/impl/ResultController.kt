@@ -73,6 +73,20 @@ class ResultController(val service: IResultService): IResultController {
         )
     }
 
+    @DeleteMapping(value = ["/api/results/with_args"], produces = ["application/json"])
+    override fun deleteResult(
+        @RequestParam("roomId") roomId: String,
+        @RequestParam("userId") userId: String): WebResponse<String> {
+
+        service.delete(roomId, userId)
+
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = roomId.plus(" $userId")
+        )
+    }
+
     @GetMapping(value = ["/api/results"], produces = ["application/json"])
     override fun listResult(
         @RequestParam(value = "page", defaultValue = "0") page: Int,

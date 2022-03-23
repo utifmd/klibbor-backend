@@ -1,5 +1,6 @@
 package com.utflnx.who.knows.backend.model.user
 
+import com.utflnx.who.knows.backend.entity.Notification
 import com.utflnx.who.knows.backend.entity.Participant
 import com.utflnx.who.knows.backend.entity.Room
 import java.util.*
@@ -15,5 +16,6 @@ data class Response(
     val createdAt: Date,
     val updatedAt: Date?,
     val participants: List<Participant>,
-    val rooms: List<Room>
+    val rooms: List<Room>,
+    val notifications: List<Notification>
 )

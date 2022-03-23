@@ -12,5 +12,6 @@ interface IResultService {
     fun read(roomId: String, userId: String): Response
     fun update(resultId: String, updateRequest: UpdateRequest): Response
     fun delete(resultId: String)
+    fun delete(roomId: String, userId: String)
     fun list(listRequest: ListRequest): List<Response>
 }

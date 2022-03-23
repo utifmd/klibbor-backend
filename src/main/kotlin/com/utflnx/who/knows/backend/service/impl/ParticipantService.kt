@@ -12,9 +12,11 @@ import com.utflnx.who.knows.backend.service.IParticipantService
 import com.utflnx.who.knows.backend.validation.DataExistException
 import com.utflnx.who.knows.backend.validation.DataNotFoundException
 import com.utflnx.who.knows.backend.validation.NotFoundException
+import org.springframework.beans.support.PagedListHolder
 import org.springframework.data.domain.*
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.util.stream.Collectors
 
 @Service
 class ParticipantService(
@@ -67,26 +69,40 @@ class ParticipantService(
 
     override fun list(listRequest: ListRequest): List<Response> {
         mapper.validate(listRequest)
+        val paged = reposParticipant.findAll(PageRequest.of(listRequest.page, listRequest.size))
+
+        return paged.map(mapper::toResponse)
+            .sortedByDescending { it.createdAt }
+
+        /*val pageRequest = PageRequest.of(listRequest.page, listRequest.size)
         val allPages = reposParticipant.findAll()
 
         val sorted = allPages.sortedByDescending { participant ->
-            allPages.count { it.userId == participant.userId }
+            allPages.count { it.userId == participant.userId }}
+
+        val trimmed = sorted.distinctBy { it.userId }
+
+        val totalReqSize = pageRequest.run { pageSize + Math.toIntExact(offset) }
+        if (totalReqSize >= trimmed.size) return emptyList()
+
+        val holder = PagedListHolder(trimmed).apply {
+            page = pageRequest.pageNumber
+            pageSize = pageRequest.pageSize
         }
+        return holder.pageList.stream().collect(Collectors.toList())
+            .map(mapper::toResponse)*/
+
+        /*val allPages = reposParticipant.findAll()
+        val sorted = allPages.sortedByDescending { participant ->
+            allPages.count { it.userId == participant.userId }}
+        val trimmed = sorted.distinctBy { it.userId }
 
         val pageable: Pageable = PageRequest.of(listRequest.page, listRequest.size)
-
         val start = Math.toIntExact(pageable.offset)
-        val end: Int = if (start + pageable.pageSize > allPages.size) allPages.size
+        val end: Int = if (start + pageable.pageSize > trimmed.size) trimmed.size
             else start + pageable.pageSize
 
-        return try {
-            sorted.slice(start..end)
-                .distinctBy { it.userId }
-                .map(mapper::toResponse)
-
-        } catch (e: Exception){
-            sorted.distinctBy { it.userId }
-                .map(mapper::toResponse)
-        }
+        return allPages.slice(start..end)
+                .map(mapper::toResponse)*/
     }
 }

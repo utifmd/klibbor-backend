@@ -9,6 +9,7 @@ interface INotificationController {
     fun createNotification(createRequest: CreateRequest): WebResponse<Response>
     fun readNotification(notificationId: String): WebResponse<Response>
     fun deleteNotification(notificationId: String): WebResponse<String>
+    fun deleteNotification(roomId: String, userId: String): WebResponse<String>
     fun updateNotification(id: String, updateRequest: UpdateRequest): WebResponse<Response>
     fun listNotification(page: Int, size: Int): WebResponse<List<Response>>
     fun listNotification(recipientId: String, page: Int, size: Int): WebResponse<List<Response>>

@@ -81,8 +81,10 @@ class RoomController(val service: IRoomService): IRoomController {
 
     @GetMapping(value = ["/api/rooms/owner/{userId}"], produces = ["application/json"])
     override fun listRoom(
-        @PathVariable("userId") userId: String): WebResponse<List<Response>> {
-        val response = service.list(userId)
+        @PathVariable("userId") userId: String,
+        @RequestParam(value = "page", defaultValue = "0") page: Int,
+        @RequestParam(value = "size", defaultValue = "5") size: Int): WebResponse<List<Response>> {
+        val response = service.list(userId, ListRequest(page, size))
 
         return WebResponse(
             code = 200,

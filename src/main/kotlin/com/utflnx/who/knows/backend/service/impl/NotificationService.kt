@@ -67,6 +67,12 @@ class NotificationService(
         reposNotification.delete(notification)
     }
 
+    override fun delete(roomId: String, userId: String) {
+        val notification = reposNotification.findByRoomIdAndUserIdOrNull(roomId, userId) ?: throw NotFoundException()
+
+        reposNotification.delete(notification)
+    }
+
     override fun list(listRequest: ListRequest): List<Response> {
         val pageNotification = reposNotification.findAll(PageRequest.of(listRequest.page, listRequest.size))
         val notification = pageNotification.get().collect(Collectors.toList())
@@ -76,11 +82,10 @@ class NotificationService(
 
     override fun list(recipientId: String, listRequest: ListRequest): List<Response> {
         val notifications = reposNotification
-            .findAllByRecipientIdOrNull(recipientId, PageRequest.of(listRequest.page, listRequest.size))
-        //val notifications = pageNotifications.get().collect(Collectors.toList())
+            .findAllByRecipientId(recipientId, PageRequest.of(listRequest.page, listRequest.size))
 
         return notifications.map(mapper::toResponse)
             .sortedByDescending { it.createdAt }
-            .sortedByDescending { it.seen }
+            .sortedBy { it.seen }
     }
 }

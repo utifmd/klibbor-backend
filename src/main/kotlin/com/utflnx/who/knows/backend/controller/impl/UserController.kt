@@ -75,6 +75,19 @@ class UserController(val service: IUserService): IUserController {
         )
     }
 
+    @GetMapping(value = [ "/api/users/most-active" ], produces = ["application/json"])
+    override fun activelyParticipants(
+        @RequestParam(value = "page", defaultValue = "0") page: Int,
+        @RequestParam(value = "size", defaultValue = "10") size: Int): WebResponse<List<Response>> {
+        val users = service.activelyParticipants(ListRequest(page, size))
+
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = users
+        )
+    }
+
     @PostMapping(value = ["/api/auth/sign-in"], produces = ["application/json"], consumes = ["application/json"])
     override fun signInUser(
         @RequestBody loginRequest: LoginRequest): WebResponse<Response> {

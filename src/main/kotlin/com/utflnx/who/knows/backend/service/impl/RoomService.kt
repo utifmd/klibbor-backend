@@ -62,14 +62,13 @@ class RoomService(
         reposRoom.delete(room)
     }
 
-    override fun list(userId: String): List<Response> {
+    override fun list(userId: String, listRequest: ListRequest): List<Response> {
         mapper.validate(userId)
+            val rooms = reposRoom.findAllByUserId(userId, PageRequest.of(listRequest.page, listRequest.size))
 
-        val rooms = reposRoom.findAllByUserId(userId)
-
-        return rooms.map {
-            mapper.toResponse(it)
-        }
+        return rooms.map(mapper::toResponse)
+            .sortedByDescending { it.createdAt }
+            .sortedBy { it.expired }
     }
 
     override fun list(listRequest: ListRequest): List<Response> {
@@ -78,6 +77,7 @@ class RoomService(
         return reposRoom
             .findAll(PageRequest.of(listRequest.page, listRequest.size)).map(mapper::toResponse)
             .sortedByDescending { it.participants.size }
+            .sortedBy { it.expired }
 
         //val rooms = pagedRoom.stream().collect(Collectors.toList()) return rooms
     }

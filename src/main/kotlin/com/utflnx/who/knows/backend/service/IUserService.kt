@@ -13,6 +13,7 @@ interface IUserService {
     fun delete(deleteRequest: String)
     fun list(listRequest: ListRequest): List<Response>
 //    fun readExplore(): Response
+    fun activelyParticipants(listRequest: ListRequest): List<Response>
 
     fun signIn(loginRequest: LoginRequest): Response
 }

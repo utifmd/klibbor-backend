@@ -72,6 +72,12 @@ class ResultService(
         reposResult.delete(result)
     }
 
+    override fun delete(roomId: String, userId: String) {
+        val result = reposResult.findByRoomIdAndUserIdOrNull(roomId, userId) ?: throw NotFoundException()
+
+        reposResult.delete(result)
+    }
+
     override fun list(listRequest: ListRequest): List<Response> {
         mapper.validate(listRequest)
 

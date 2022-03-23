@@ -11,5 +11,6 @@ interface IResultController {
     fun readResult(roomId: String, userId: String): WebResponse<Response>
     fun updateResult(id: String, updateRequest: UpdateRequest): WebResponse<Response>
     fun deleteResult(id: String): WebResponse<String>
+    fun deleteResult(roomId: String, userId: String): WebResponse<String>
     fun listResult(page: Int, size: Int): WebResponse<List<Response>>
 }

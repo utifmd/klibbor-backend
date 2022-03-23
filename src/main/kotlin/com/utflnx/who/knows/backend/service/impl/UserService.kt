@@ -80,6 +80,14 @@ class UserService(
 
         return mapper.toResponse(current)
     }
+
+    override fun activelyParticipants(listRequest: ListRequest): List<Response> {
+        mapper.validate(listRequest)
+        val paged = repository.findActivelyParticipants(PageRequest.of(listRequest.page, listRequest.size))
+
+        return paged.stream().collect(Collectors.toList())
+            .map(mapper::toResponse)
+    }
 }
 // @Autowired // lateinit var mapper: IUserDataMapper
 // @Query("SELECT * FROM USER INNER JOIN ...") // override fun readExplore(): Response { }

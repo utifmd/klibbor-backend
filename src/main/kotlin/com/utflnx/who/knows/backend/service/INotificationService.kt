@@ -14,6 +14,7 @@ interface INotificationService {
     fun read(notificationId: String): Response
     fun update(id: String, updateRequest: UpdateRequest): Response
     fun delete(notificationId: String)
+    fun delete(roomId: String, userId: String)
     fun list(listRequest: ListRequest): List<Response>
     fun list(recipientId: String, listRequest: ListRequest): List<Response>
 }

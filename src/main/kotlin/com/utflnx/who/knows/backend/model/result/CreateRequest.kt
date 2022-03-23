@@ -10,8 +10,8 @@ data class CreateRequest(
     @field:NotBlank
     val resultId: String?,
 
-    @field:NotBlank
-    val participantId: String?,
+    /*@field:NotBlank
+    val participantId: String?,*/
 
     @field:NotBlank
     val roomId: String?,

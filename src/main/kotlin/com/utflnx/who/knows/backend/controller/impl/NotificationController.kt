@@ -54,6 +54,19 @@ class NotificationController(
         )
     }
 
+    @DeleteMapping(value = ["/api/notifications/with_args"], produces = ["application/json"])
+    override fun deleteNotification(
+        @RequestParam("roomId") roomId: String,
+        @RequestParam("userId") userId: String): WebResponse<String> {
+        service.delete(roomId, userId)
+
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = roomId.plus(" $userId")
+        )
+    }
+
     @PutMapping(value = ["/api/notifications/{notificationId}"], produces = ["application/json"], consumes = ["application/json"])
     override fun updateNotification(
         @PathVariable("notificationId") id: String,

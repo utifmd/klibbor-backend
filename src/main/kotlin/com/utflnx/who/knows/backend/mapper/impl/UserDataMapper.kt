@@ -26,7 +26,8 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
             createdAt = Date(),
             updatedAt = null,
             participants = emptyList(),
-            rooms = emptyList()
+            rooms = emptyList(),
+            notifications = emptyList()
         )
     }
 
@@ -58,7 +59,8 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
             createdAt = user.createdAt,
             updatedAt = user.updatedAt,
             participants = user.participants,
-            rooms = user.rooms
+            rooms = user.rooms,
+            notifications = user.notifications
         )
     }
 
