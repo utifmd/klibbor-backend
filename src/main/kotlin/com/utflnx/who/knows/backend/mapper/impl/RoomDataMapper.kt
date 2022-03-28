@@ -2,6 +2,7 @@ package com.utflnx.who.knows.backend.mapper.impl
 
 import com.utflnx.who.knows.backend.entity.Room
 import com.utflnx.who.knows.backend.mapper.IRoomDataMapper
+import com.utflnx.who.knows.backend.mapper.IUserDataMapper
 import com.utflnx.who.knows.backend.model.room.CreateRequest
 import com.utflnx.who.knows.backend.model.room.Response
 import com.utflnx.who.knows.backend.model.room.UpdateRequest
@@ -10,7 +11,8 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class RoomDataMapper(val validator: DataValidator): IRoomDataMapper {
+class RoomDataMapper(
+    val validator: DataValidator, val userMapper: IUserDataMapper): IRoomDataMapper {
     override fun toRoom(createRequest: CreateRequest): Room {
         validate(createRequest)
 
@@ -52,7 +54,8 @@ class RoomDataMapper(val validator: DataValidator): IRoomDataMapper {
             room.description,
             room.expired,
             room.createdAt,
-            room.updatedAt, // user = room.user
+            room.updatedAt,
+            room.user?.let(userMapper::toCensoredResponse),
             room.questions,
             room.participants
         )
