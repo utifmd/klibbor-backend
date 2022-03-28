@@ -32,7 +32,11 @@ data class Room(
     var createdAt: Date,
 
     @Column(name = "updatedAt")
-    var updatedAt: Date?, // @JoinColumn(name = "userId", insertable = false, updatable = false) @ManyToOne @JsonIgnore var user: User?
+    var updatedAt: Date?,
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REFRESH])
+    @JoinColumn(name = "userId", insertable = false, updatable = false)
+    var user: User?,
 
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE, CascadeType.REFRESH])
     @JoinColumn(name = "roomId")

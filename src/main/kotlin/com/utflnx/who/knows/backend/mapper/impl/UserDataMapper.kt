@@ -47,8 +47,8 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
         return current
     }
 
-    override fun toResponse(user: User): Response{
-        return Response(
+    override fun toCompleteResponse(user: User): Response.Complete{
+        return Response.Complete(
             userId = user.userId,
             fullName = user.fullName,
             email = user.email,
@@ -61,6 +61,15 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
             participants = user.participants,
             rooms = user.rooms,
             notifications = user.notifications
+        )
+    }
+
+    override fun toCensoredResponse(user: User): Response.Censored {
+        return Response.Censored(
+            userId = user.userId,
+            fullName = user.fullName,
+            username = user.username,
+            profileUrl = user.profileUrl,
         )
     }
 

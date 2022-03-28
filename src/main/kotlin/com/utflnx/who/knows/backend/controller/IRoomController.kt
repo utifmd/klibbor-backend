@@ -8,10 +8,10 @@ import com.utflnx.who.knows.backend.model.room.UpdateRequest
 
 
 interface IRoomController {
-    fun createRoom(createRequest: CreateRequest): WebResponse<Response>
-    fun readRoom(readRequest: String): WebResponse<Response>
-    fun updateRoom(id: String, updateRequest: UpdateRequest): WebResponse<Response>
+    fun createRoom(createRequest: CreateRequest): WebResponse<Response.Complete>
+    fun readRoom(readRequest: String): WebResponse<Response.Complete>
+    fun updateRoom(id: String, updateRequest: UpdateRequest): WebResponse<Response.Complete>
     fun deleteRoom(id: String): WebResponse<String>
-    fun listRoom(page: Int, size: Int): WebResponse<List<Response>>
-    fun listRoom(userId: String, page: Int, size: Int): WebResponse<List<Response>>
+    fun listRoom(page: Int, size: Int): WebResponse<List<Response.Censored>>
+    fun listRoom(userId: String, page: Int, size: Int): WebResponse<List<Response.Complete>>
 }

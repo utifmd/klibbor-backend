@@ -15,7 +15,7 @@ class UserController(val service: IUserService): IUserController {
 
     @PostMapping(value = ["/api/users"], produces = ["application/json"], consumes = ["application/json"])
     override fun createUser(
-        @RequestBody createRequest: CreateRequest ): WebResponse<Response>{
+        @RequestBody createRequest: CreateRequest ): WebResponse<Response.Complete> {
         val response = service.create(createRequest)
 
         return WebResponse(
@@ -27,7 +27,7 @@ class UserController(val service: IUserService): IUserController {
 
     @GetMapping(value = ["/api/users/{userId}"], produces = ["application/json"])
     override fun readUser(
-        @PathVariable("userId") readRequest: String): WebResponse<Response> {
+        @PathVariable("userId") readRequest: String): WebResponse<Response.Complete> {
         val response = service.read(readRequest)
 
         return WebResponse(
@@ -40,7 +40,7 @@ class UserController(val service: IUserService): IUserController {
     @PutMapping(value = ["/api/users/{userId}"], produces = ["application/json"], consumes = ["application/json"])
     override fun updateUser(
         @PathVariable("userId") id: String,
-        @RequestBody updateRequest: UpdateRequest): WebResponse<Response> {
+        @RequestBody updateRequest: UpdateRequest): WebResponse<Response.Complete> {
         val response = service.update(id, updateRequest)
 
         return WebResponse(
@@ -65,7 +65,7 @@ class UserController(val service: IUserService): IUserController {
     @GetMapping(value = [ "/api/users" ], produces = ["application/json"])
     override fun listUser(
         @RequestParam(value = "page", defaultValue = "0") page: Int,
-        @RequestParam(value = "size", defaultValue = "10") size: Int): WebResponse<List<Response>> {
+        @RequestParam(value = "size", defaultValue = "10") size: Int): WebResponse<List<Response.Complete>> {
         val users = service.list(ListRequest(page, size))
 
         return WebResponse(
@@ -78,7 +78,7 @@ class UserController(val service: IUserService): IUserController {
     @GetMapping(value = [ "/api/users/most-active" ], produces = ["application/json"])
     override fun activelyParticipants(
         @RequestParam(value = "page", defaultValue = "0") page: Int,
-        @RequestParam(value = "size", defaultValue = "10") size: Int): WebResponse<List<Response>> {
+        @RequestParam(value = "size", defaultValue = "10") size: Int): WebResponse<List<Response.Censored>> {
         val users = service.activelyParticipants(ListRequest(page, size))
 
         return WebResponse(
@@ -90,7 +90,7 @@ class UserController(val service: IUserService): IUserController {
 
     @PostMapping(value = ["/api/auth/sign-in"], produces = ["application/json"], consumes = ["application/json"])
     override fun signInUser(
-        @RequestBody loginRequest: LoginRequest): WebResponse<Response> {
+        @RequestBody loginRequest: LoginRequest): WebResponse<Response.Complete> {
         val response = service.signIn(loginRequest)
 
         return WebResponse(

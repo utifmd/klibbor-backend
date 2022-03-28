@@ -16,7 +16,7 @@ class RoomController(val service: IRoomService): IRoomController {
         produces = ["application/json"],
         consumes = ["application/json"])
     override fun createRoom(
-        @RequestBody createRequest: CreateRequest): WebResponse<Response> {
+        @RequestBody createRequest: CreateRequest): WebResponse<Response.Complete> {
         val response = service.create(createRequest)
 
         return WebResponse(
@@ -29,7 +29,7 @@ class RoomController(val service: IRoomService): IRoomController {
     @GetMapping(value = ["/api/rooms/{roomId}"],
         produces = ["application/json"])
     override fun readRoom(
-        @PathVariable("roomId") readRequest: String): WebResponse<Response> {
+        @PathVariable("roomId") readRequest: String): WebResponse<Response.Complete> {
         val response = service.read(readRequest)
 
         return WebResponse(
@@ -44,7 +44,7 @@ class RoomController(val service: IRoomService): IRoomController {
         consumes = ["application/json"])
     override fun updateRoom(
         @PathVariable("roomId") id: String,
-        @RequestBody updateRequest: UpdateRequest): WebResponse<Response> {
+        @RequestBody updateRequest: UpdateRequest): WebResponse<Response.Complete> {
         val response = service.update(id, updateRequest)
 
         return WebResponse(
@@ -69,7 +69,7 @@ class RoomController(val service: IRoomService): IRoomController {
     @GetMapping(value = ["/api/rooms"], produces = ["application/json"])
     override fun listRoom(
         @RequestParam(value = "page", defaultValue = "0") page: Int,
-        @RequestParam(value = "size", defaultValue = "5") size: Int): WebResponse<List<Response>> {
+        @RequestParam(value = "size", defaultValue = "5") size: Int): WebResponse<List<Response.Censored>> {
         val response = service.list(ListRequest(page, size))
 
         return WebResponse(
@@ -83,7 +83,7 @@ class RoomController(val service: IRoomService): IRoomController {
     override fun listRoom(
         @PathVariable("userId") userId: String,
         @RequestParam(value = "page", defaultValue = "0") page: Int,
-        @RequestParam(value = "size", defaultValue = "5") size: Int): WebResponse<List<Response>> {
+        @RequestParam(value = "size", defaultValue = "5") size: Int): WebResponse<List<Response.Complete>> {
         val response = service.list(userId, ListRequest(page, size))
 
         return WebResponse(

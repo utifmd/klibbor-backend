@@ -8,12 +8,12 @@ import com.utflnx.who.knows.backend.model.user.Response
 import com.utflnx.who.knows.backend.model.user.UpdateRequest
 
 interface IUserController {
-    fun createUser(createRequest: CreateRequest): WebResponse<Response>
-    fun readUser(readRequest: String): WebResponse<Response>
-    fun updateUser(id: String, updateRequest: UpdateRequest): WebResponse<Response>
+    fun createUser(createRequest: CreateRequest): WebResponse<Response.Complete>
+    fun readUser(readRequest: String): WebResponse<Response.Complete>
+    fun updateUser(id: String, updateRequest: UpdateRequest): WebResponse<Response.Complete>
     fun deleteUser(id: String): WebResponse<String>
-    fun listUser(page: Int, size: Int): WebResponse<List<Response>>
-    fun activelyParticipants(page: Int, size: Int): WebResponse<List<Response>>
+    fun listUser(page: Int, size: Int): WebResponse<List<Response.Complete>>
+    fun activelyParticipants(page: Int, size: Int): WebResponse<List<Response.Censored>>
 
-    fun signInUser(loginRequest: LoginRequest): WebResponse<Response>
+    fun signInUser(loginRequest: LoginRequest): WebResponse<Response.Complete>
 }

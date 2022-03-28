@@ -15,7 +15,6 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.*
-import java.util.stream.Collectors
 
 @Service
 class RoomService(
@@ -23,7 +22,7 @@ class RoomService(
     val reposUser: IUserRepository,
     val mapper: IRoomDataMapper): IRoomService {
 
-    override fun create(createRequest: CreateRequest): Response {
+    override fun create(createRequest: CreateRequest): Response.Complete {
         val room = mapper.toRoom(createRequest)
 
         if (reposRoom.existsById(room.roomId))
@@ -36,24 +35,24 @@ class RoomService(
 
         reposRoom.save(room)
 
-        return mapper.toResponse(room)
+        return mapper.toCompleteResponse(room)
     }
 
-    override fun read(readRequest: String): Response {
+    override fun read(readRequest: String): Response.Complete {
         val room = reposRoom.findByIdOrNull(readRequest) ?: throw NotFoundException()
 
 //        room.user?.rooms = null
 
-        return mapper.toResponse(room)
+        return mapper.toCompleteResponse(room)
     }
 
-    override fun update(id: String, updateRequest: UpdateRequest): Response {
+    override fun update(id: String, updateRequest: UpdateRequest): Response.Complete {
         val room = reposRoom.findByIdOrNull(id) ?: throw NotFoundException()
         val updatedRoom = mapper.toRoom(room, updateRequest)
 
         reposRoom.save(updatedRoom)
 
-        return mapper.toResponse(updatedRoom)
+        return mapper.toCompleteResponse(updatedRoom)
     }
 
     override fun delete(id: String) {
@@ -62,21 +61,21 @@ class RoomService(
         reposRoom.delete(room)
     }
 
-    override fun list(userId: String, listRequest: ListRequest): List<Response> {
+    override fun list(userId: String, listRequest: ListRequest): List<Response.Complete> {
         mapper.validate(userId)
             val rooms = reposRoom.findAllByUserId(userId, PageRequest.of(listRequest.page, listRequest.size))
 
-        return rooms.map(mapper::toResponse)
+        return rooms.map(mapper::toCompleteResponse)
             .sortedByDescending { it.createdAt }
             .sortedBy { it.expired }
     }
 
-    override fun list(listRequest: ListRequest): List<Response> {
+    override fun list(listRequest: ListRequest): List<Response.Censored> {
         mapper.validate(listRequest)
 
         return reposRoom
-            .findAll(PageRequest.of(listRequest.page, listRequest.size)).map(mapper::toResponse)
-            .sortedByDescending { it.participants.size }
+            .findAll(PageRequest.of(listRequest.page, listRequest.size)).map(mapper::toCensoredResponse)
+            .sortedByDescending { it.participantSize }
             .sortedBy { it.expired }
 
         //val rooms = pagedRoom.stream().collect(Collectors.toList()) return rooms

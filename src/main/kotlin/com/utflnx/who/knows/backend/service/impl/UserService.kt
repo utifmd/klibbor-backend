@@ -23,7 +23,7 @@ class UserService(
     val repository: IUserRepository,
     val mapper: IUserDataMapper): IUserService {
 
-    override fun create(createRequest: CreateRequest): Response {
+    override fun create(createRequest: CreateRequest): Response.Complete {
         val user = mapper.toUser(createRequest)
 
         if (repository.existsById(user.userId))
@@ -36,22 +36,22 @@ class UserService(
 
         repository.save(user)
 
-        return mapper.toResponse(user)
+        return mapper.toCompleteResponse(user)
     }
 
-    override fun read(readRequest: String): Response {
+    override fun read(readRequest: String): Response.Complete {
         val user = repository.findByIdOrNull(readRequest) ?: throw NotFoundException()
 
-        return mapper.toResponse(user)
+        return mapper.toCompleteResponse(user)
     }
 
-    override fun update(id: String, updateRequest: UpdateRequest): Response {
+    override fun update(id: String, updateRequest: UpdateRequest): Response.Complete {
         val user = repository.findByIdOrNull(id) ?: throw NotFoundException()
         val updatedUser = mapper.toUser(user, updateRequest)
 
         repository.save(updatedUser)
 
-        return mapper.toResponse(updatedUser)
+        return mapper.toCompleteResponse(updatedUser)
     }
 
     override fun delete(deleteRequest: String) {
@@ -61,15 +61,15 @@ class UserService(
         else throw NotFoundException()
     }
 
-    override fun list(listRequest: ListRequest): List<Response> {
+    override fun list(listRequest: ListRequest): List<Response.Complete> {
         mapper.validate(listRequest)
         val page = repository.findAll(
-            PageRequest.of(listRequest.page, listRequest.size)).map(mapper::toResponse)
+            PageRequest.of(listRequest.page, listRequest.size)).map(mapper::toCompleteResponse)
 
         return page.get().collect(Collectors.toList())
     }
 
-    override fun signIn(loginRequest: LoginRequest): Response {
+    override fun signIn(loginRequest: LoginRequest): Response.Complete {
         mapper.validate(loginRequest)
 
         val current = repository.findByEmailOrPhoneOrUnameOrNull(loginRequest.payload)
@@ -78,15 +78,15 @@ class UserService(
         if (current.password != loginRequest.password)
             throw InvalidPasswordException()
 
-        return mapper.toResponse(current)
+        return mapper.toCompleteResponse(current)
     }
 
-    override fun activelyParticipants(listRequest: ListRequest): List<Response> {
+    override fun activelyParticipants(listRequest: ListRequest): List<Response.Censored> {
         mapper.validate(listRequest)
         val paged = repository.findActivelyParticipants(PageRequest.of(listRequest.page, listRequest.size))
 
         return paged.stream().collect(Collectors.toList())
-            .map(mapper::toResponse)
+            .map(mapper::toCensoredResponse)
     }
 }
 // @Autowired // lateinit var mapper: IUserDataMapper

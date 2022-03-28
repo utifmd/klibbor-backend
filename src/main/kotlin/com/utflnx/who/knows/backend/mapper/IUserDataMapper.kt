@@ -9,6 +9,7 @@ import com.utflnx.who.knows.backend.model.user.UpdateRequest
 interface IUserDataMapper {
     fun toUser(createRequest: CreateRequest): User
     fun toUser(current: User, updateRequest: UpdateRequest): User
-    fun toResponse(user: User): Response
+    fun toCompleteResponse(user: User): Response.Complete
+    fun toCensoredResponse(user: User): Response.Censored
     fun validate(any: Any)
 }

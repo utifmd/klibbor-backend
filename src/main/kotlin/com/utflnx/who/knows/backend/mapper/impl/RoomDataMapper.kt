@@ -22,7 +22,8 @@ class RoomDataMapper(val validator: DataValidator): IRoomDataMapper {
             createRequest.description ?: "",
             createRequest.expired ?: true,
             Date(),
-            null, // null
+            null,
+            null,
             questions = emptyList(),
             participants = emptyList()
         )
@@ -42,8 +43,8 @@ class RoomDataMapper(val validator: DataValidator): IRoomDataMapper {
         return current
     }
 
-    override fun toResponse(room: Room): Response {
-        return Response(
+    override fun toCompleteResponse(room: Room): Response.Complete {
+        return Response.Complete(
             room.roomId,
             room.userId,
             room.minute,
@@ -54,6 +55,21 @@ class RoomDataMapper(val validator: DataValidator): IRoomDataMapper {
             room.updatedAt, // user = room.user
             room.questions,
             room.participants
+        )
+    }
+
+    override fun toCensoredResponse(room: Room): Response.Censored {
+        return Response.Censored(
+            roomId = room.roomId,
+            userId = room.userId,
+            minute = room.minute,
+            title = room.title,
+            description = room.description,
+            expired = room.expired,
+            usernameOwner = room.user?.username ?: "unknown",
+            fullNameOwner = room.user?.fullName ?: "unknown",
+            questionSize = room.questions.size,
+            participantSize = room.participants.size,
         )
     }
 
