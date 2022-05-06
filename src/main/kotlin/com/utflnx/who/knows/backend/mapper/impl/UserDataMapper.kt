@@ -1,6 +1,8 @@
 package com.utflnx.who.knows.backend.mapper.impl
 
+import com.utflnx.who.knows.backend.entity.Room
 import com.utflnx.who.knows.backend.entity.User
+import com.utflnx.who.knows.backend.mapper.IRoomDataMapper
 import com.utflnx.who.knows.backend.mapper.IUserDataMapper
 import com.utflnx.who.knows.backend.model.user.CreateRequest
 import com.utflnx.who.knows.backend.model.user.Response
@@ -10,7 +12,8 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
+class UserDataMapper(
+    val validator: IDataValidator): IUserDataMapper {
 
     override fun toUser(createRequest: CreateRequest): User {
         validate(createRequest)
@@ -59,7 +62,7 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
             createdAt = user.createdAt,
             updatedAt = user.updatedAt,
             participants = user.participants,
-            rooms = user.rooms,
+            rooms = user.rooms.map(::toCensoredResponse),
             notifications = user.notifications
         )
     }
@@ -70,6 +73,21 @@ class UserDataMapper(val validator: IDataValidator): IUserDataMapper {
             fullName = user.fullName,
             username = user.username,
             profileUrl = user.profileUrl,
+        )
+    }
+
+    override fun toCensoredResponse(room: Room): com.utflnx.who.knows.backend.model.room.Response.Censored {
+        return com.utflnx.who.knows.backend.model.room.Response.Censored(
+            roomId = room.roomId,
+            userId = room.userId,
+            minute = room.minute,
+            title = room.title,
+            description = room.description,
+            expired = room.expired,
+            usernameOwner = room.user?.username ?: "unknown",
+            fullNameOwner = room.user?.fullName ?: "unknown",
+            questionSize = room.questions.size,
+            participantSize = room.participants.size,
         )
     }
 

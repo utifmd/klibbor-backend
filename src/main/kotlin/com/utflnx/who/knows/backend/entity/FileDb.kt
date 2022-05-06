@@ -25,8 +25,8 @@ data class FileDb(
 
     @Lob
     @field:NotNull
-    val data: ByteArray
-) {
+    val data: ByteArray) {
+
     val id: String? get() = _id
 
     override fun equals(other: Any?): Boolean {

@@ -4,7 +4,7 @@ import com.utflnx.who.knows.backend.entity.Participant
 import com.utflnx.who.knows.backend.entity.Quiz
 import java.util.*
 
-sealed class Response() {
+sealed class Response {
     data class Censored(
         val roomId: String,
         val userId: String,

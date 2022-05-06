@@ -23,6 +23,6 @@ sealed class Response {
         val createdAt: Date?,
         val updatedAt: Date?,
         val participants: List<Participant>?,
-        val rooms: List<Room>?,
+        val rooms: List<com.utflnx.who.knows.backend.model.room.Response.Censored>?,
         val notifications: List<Notification>?): Response()
 }
