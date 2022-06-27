@@ -17,6 +17,10 @@ repositories {
 }
 
 dependencies {
+	//implementation("org.hibernate.search:hibernate-search-backend-lucene:6.1.5.Final")
+	implementation("org.hibernate:hibernate-search-orm:5.11.5.Final")
+	implementation("org.hibernate:hibernate-search-elasticsearch:5.11.5.Final")
+
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.5.6")
 	implementation("org.springframework.boot:spring-boot-starter-web:2.5.6")
 	implementation("org.springframework.boot:spring-boot-starter-validation:2.5.6")

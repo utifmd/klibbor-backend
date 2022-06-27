@@ -1,5 +1,6 @@
 package com.utflnx.who.knows.backend.service.impl
 
+import com.utflnx.who.knows.backend.entity.User
 import com.utflnx.who.knows.backend.mapper.IUserDataMapper
 import com.utflnx.who.knows.backend.model.user.CreateRequest
 import com.utflnx.who.knows.backend.model.ListRequest
@@ -39,14 +40,14 @@ class UserService(
         return mapper.toCompleteResponse(user)
     }
 
-    override fun read(readRequest: String): Response.Complete {
-        val user = repository.findByIdOrNull(readRequest) ?: throw NotFoundException()
+    override fun read(userId: String): Response.Complete {
+        val user = repository.findByIdOrNull(userId) ?: throw NotFoundException()
 
         return mapper.toCompleteResponse(user)
     }
 
-    override fun update(id: String, updateRequest: UpdateRequest): Response.Complete {
-        val user = repository.findByIdOrNull(id) ?: throw NotFoundException()
+    override fun update(userId: String, updateRequest: UpdateRequest): Response.Complete {
+        val user = repository.findByIdOrNull(userId) ?: throw NotFoundException()
         val updatedUser = mapper.toUser(user, updateRequest)
 
         repository.save(updatedUser)
@@ -54,17 +55,25 @@ class UserService(
         return mapper.toCompleteResponse(updatedUser)
     }
 
-    override fun delete(deleteRequest: String) {
-        if(repository.findByIdOrNull(deleteRequest) != null)
-            repository.deleteById(deleteRequest)
+    override fun update(userId: String, user: User): Response.Complete {
+        repository.findByIdOrNull(userId) ?: throw NotFoundException()
+
+        repository.save(user)
+        return mapper.toCompleteResponse(user)
+    }
+
+    override fun delete(userId: String) {
+        if(repository.findByIdOrNull(userId) != null)
+            repository.deleteById(userId)
 
         else throw NotFoundException()
     }
 
     override fun list(listRequest: ListRequest): List<Response.Complete> {
         mapper.validate(listRequest)
-        val page = repository.findAll(
-            PageRequest.of(listRequest.page, listRequest.size)).map(mapper::toCompleteResponse)
+        val page = repository
+            .findAll(PageRequest.of(listRequest.page, listRequest.size))
+            .map(mapper::toCompleteResponse)
 
         return page.get().collect(Collectors.toList())
     }
@@ -72,13 +81,32 @@ class UserService(
     override fun signIn(loginRequest: LoginRequest): Response.Complete {
         mapper.validate(loginRequest)
 
+        val mutableTokens = mutableListOf<String>()
         val current = repository.findByEmailOrPhoneOrUnameOrNull(loginRequest.payload)
             ?: throw InvalidEmailException()
 
         if (current.password != loginRequest.password)
             throw InvalidPasswordException()
 
+        mutableTokens.add(loginRequest.token)
+        mutableTokens.addAll(current.tokens)
+
+        val freshTokens = mutableTokens.distinct()
+            .filterIndexed { i, _-> i in 0..2 }
+
+        if (freshTokens.isNotEmpty())
+            update(current.userId, current.copy(tokens = freshTokens))
+
         return mapper.toCompleteResponse(current)
+    }
+
+    override fun search(query: String, listRequest: ListRequest): List<Response.Censored> {
+        mapper.validate(query)
+        mapper.validate(listRequest)
+
+        val pagedResult = repository.searchUserByUsernameOrFullName(query.lowercase(), PageRequest.of(listRequest.page, listRequest.size))
+        return pagedResult.stream().collect(Collectors.toList())
+            .map(mapper::toCensoredResponse)
     }
 
     override fun activelyParticipants(listRequest: ListRequest): List<Response.Censored> {

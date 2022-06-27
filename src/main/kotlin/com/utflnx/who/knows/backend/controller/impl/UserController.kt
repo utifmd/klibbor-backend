@@ -88,6 +88,20 @@ class UserController(val service: IUserService): IUserController {
         )
     }
 
+    @GetMapping(value = ["/api/users/search/{nameOrUsername}"], produces = ["application/json"])
+    override fun searchUser(
+        @PathVariable("nameOrUsername") nameOrUsername: String,
+        @RequestParam(value = "page", defaultValue = "0") page: Int,
+        @RequestParam(value = "size", defaultValue = "5") size: Int): WebResponse<List<Response.Censored>> {
+        val users = service.search(nameOrUsername, ListRequest(page, size))
+
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = users
+        )
+    }
+
     @PostMapping(value = ["/api/auth/sign-in"], produces = ["application/json"], consumes = ["application/json"])
     override fun signInUser(
         @RequestBody loginRequest: LoginRequest): WebResponse<Response.Complete> {

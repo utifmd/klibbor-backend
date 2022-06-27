@@ -52,6 +52,11 @@ class ParticipantService(
         return mapper.toResponse(participant)
     }
 
+    override fun read(userId: String, roomId: String): Response {
+        val participant = reposParticipant.findByRoomIdAndUserIdOrNull(roomId, userId) ?: throw NotFoundException()
+        return mapper.toResponse(participant)
+    }
+
     override fun update(id: String, updateRequest: UpdateRequest): Response {
         val current = reposParticipant.findByIdOrNull(id) ?: throw NotFoundException()
         val updatedParticipant = mapper.toParticipant(current, updateRequest)

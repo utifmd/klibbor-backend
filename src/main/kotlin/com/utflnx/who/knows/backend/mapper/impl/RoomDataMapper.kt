@@ -22,10 +22,13 @@ class RoomDataMapper(
             createRequest.minute ?: 0,
             createRequest.title ?: "",
             createRequest.description ?: "",
+            createRequest.token,
             createRequest.expired ?: true,
+            createRequest.private ?: false,
             Date(),
             null,
             null,
+            impressions = emptyList(),
             questions = emptyList(),
             participants = emptyList()
         )
@@ -38,6 +41,8 @@ class RoomDataMapper(
             minute = updateRequest.minute ?: 0
             title = updateRequest.title ?: ""
             description = updateRequest.description ?: ""
+            token = updateRequest.token
+            private = updateRequest.private
             expired = updateRequest.expired ?: false
             updatedAt = Date()
         }
@@ -52,11 +57,14 @@ class RoomDataMapper(
             room.minute,
             room.title,
             room.description,
+            room.token ?: "",
             room.expired,
+            room.private ?: false,
             room.createdAt,
             room.updatedAt,
             room.user?.let(userMapper::toCensoredResponse),
             room.questions,
+            room.impressions,
             room.participants
         )
     }
@@ -68,11 +76,14 @@ class RoomDataMapper(
             minute = room.minute,
             title = room.title,
             description = room.description,
+            token = room.token ?: "",
             expired = room.expired,
+            private = room.private ?: false,
             usernameOwner = room.user?.username ?: "unknown",
             fullNameOwner = room.user?.fullName ?: "unknown",
             questionSize = room.questions.size,
             participantSize = room.participants.size,
+            impressions = room.impressions,
         )
     }
 

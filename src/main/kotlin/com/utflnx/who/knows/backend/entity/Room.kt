@@ -25,8 +25,14 @@ data class Room(
     @Column(name = "description")
     var description: String,
 
+    @Column(name = "token")
+    var token: String?,
+
     @Column(name = "expired")
     var expired: Boolean,
+
+    @Column(name = "private")
+    var private: Boolean?,
 
     @Column(name = "createdAt")
     var createdAt: Date,
@@ -37,6 +43,10 @@ data class Room(
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REFRESH])
     @JoinColumn(name = "userId", insertable = false, updatable = false)
     var user: User?,
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "postId", referencedColumnName = "roomId")
+    var impressions: List<Impression>,
 
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE, CascadeType.REFRESH])
     @JoinColumn(name = "roomId")

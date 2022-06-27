@@ -2,7 +2,6 @@ package com.utflnx.who.knows.backend.model.user
 
 import com.utflnx.who.knows.backend.entity.Notification
 import com.utflnx.who.knows.backend.entity.Participant
-import com.utflnx.who.knows.backend.entity.Room
 import java.util.*
 
 sealed class Response {
@@ -10,6 +9,7 @@ sealed class Response {
         val userId: String,
         val fullName: String,
         val username: String,
+        val tokens: List<String>?,
         val profileUrl: String): Response()
 
     data class Complete(
@@ -22,6 +22,7 @@ sealed class Response {
         val profileUrl: String,
         val createdAt: Date?,
         val updatedAt: Date?,
+        val tokens: List<String>?,
         val participants: List<Participant>?,
         val rooms: List<com.utflnx.who.knows.backend.model.room.Response.Censored>?,
         val notifications: List<Notification>?): Response()

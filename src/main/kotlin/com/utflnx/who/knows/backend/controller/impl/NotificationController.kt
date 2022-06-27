@@ -106,4 +106,19 @@ class NotificationController(
             data = response
         )
     }
+
+    @GetMapping(value = ["/api/notifications/owner/with_args"], produces = ["application/json"])
+    override fun listNotification(
+        @RequestParam(value = "recipientId", defaultValue = "") recipientId: String,
+        @RequestParam(value = "roomId", defaultValue = "") roomId: String,
+        @RequestParam(value = "page", defaultValue = "0") page: Int,
+        @RequestParam(value = "size", defaultValue = "5") size: Int): WebResponse<List<Response>> {
+        val response = service.list(recipientId, roomId, ListRequest(page, size))
+
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = response
+        )
+    }
 }

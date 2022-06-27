@@ -14,4 +14,5 @@ interface IRoomController {
     fun deleteRoom(id: String): WebResponse<String>
     fun listRoom(page: Int, size: Int): WebResponse<List<Response.Censored>>
     fun listRoom(userId: String, page: Int, size: Int): WebResponse<List<Response.Complete>>
+    fun searchRoom(titleOrDesc: String, page: Int, size: Int): WebResponse<List<Response.Censored>>
 }

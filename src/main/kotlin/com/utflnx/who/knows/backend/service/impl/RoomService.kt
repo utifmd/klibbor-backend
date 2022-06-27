@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.*
+import java.util.stream.Collectors
 
 @Service
 class RoomService(
@@ -40,8 +41,6 @@ class RoomService(
 
     override fun read(readRequest: String): Response.Complete {
         val room = reposRoom.findByIdOrNull(readRequest) ?: throw NotFoundException()
-
-//        room.user?.rooms = null
 
         return mapper.toCompleteResponse(room)
     }
@@ -75,9 +74,19 @@ class RoomService(
 
         return reposRoom
             .findAll(PageRequest.of(listRequest.page, listRequest.size)).map(mapper::toCensoredResponse)
+            .filter{ !it.private }
             .sortedByDescending { it.participantSize }
-            .sortedBy { it.expired }
+            //.sortedBy { it.expired }
 
         //val rooms = pagedRoom.stream().collect(Collectors.toList()) return rooms
+    }
+
+    override fun search(query: String, listRequest: ListRequest): List<Response.Censored> {
+        mapper.validate(query)
+        mapper.validate(listRequest)
+
+        val paged = reposRoom.searchRoomByTitleAndDesc(query, PageRequest.of(listRequest.page, listRequest.size))
+        return paged.stream().collect(Collectors.toList())
+            .map(mapper::toCensoredResponse)
     }
 }

@@ -92,4 +92,17 @@ class RoomController(val service: IRoomService): IRoomController {
             data = response
         )
     }
+    @GetMapping(value = ["/api/rooms/search/{titleOrDesc}"], produces = ["application/json"])
+    override fun searchRoom(
+        @PathVariable("titleOrDesc") titleOrDesc: String,
+        @RequestParam(value = "page", defaultValue = "0") page: Int,
+        @RequestParam(value = "size", defaultValue = "5") size: Int): WebResponse<List<Response.Censored>> {
+        val rooms = service.search(titleOrDesc, ListRequest(page, size))
+
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = rooms
+        )
+    }
 }

@@ -2,7 +2,6 @@ package com.utflnx.who.knows.backend.mapper.impl
 
 import com.utflnx.who.knows.backend.entity.Room
 import com.utflnx.who.knows.backend.entity.User
-import com.utflnx.who.knows.backend.mapper.IRoomDataMapper
 import com.utflnx.who.knows.backend.mapper.IUserDataMapper
 import com.utflnx.who.knows.backend.model.user.CreateRequest
 import com.utflnx.who.knows.backend.model.user.Response
@@ -28,6 +27,7 @@ class UserDataMapper(
             profileUrl = createRequest.profileUrl ?: "",
             createdAt = Date(),
             updatedAt = null,
+            tokens = createRequest.tokens ?: emptyList(),
             participants = emptyList(),
             rooms = emptyList(),
             notifications = emptyList()
@@ -44,6 +44,7 @@ class UserDataMapper(
             username = updateRequest.username ?: ""
             password = updateRequest.password ?: ""
             profileUrl = updateRequest.profileUrl ?: ""
+            tokens = updateRequest.tokens ?: emptyList()
             updatedAt = Date()
         }
 
@@ -63,7 +64,8 @@ class UserDataMapper(
             updatedAt = user.updatedAt,
             participants = user.participants,
             rooms = user.rooms.map(::toCensoredResponse),
-            notifications = user.notifications
+            notifications = user.notifications,
+            tokens = user.tokens
         )
     }
 
@@ -73,6 +75,7 @@ class UserDataMapper(
             fullName = user.fullName,
             username = user.username,
             profileUrl = user.profileUrl,
+            tokens = user.tokens
         )
     }
 
@@ -83,11 +86,14 @@ class UserDataMapper(
             minute = room.minute,
             title = room.title,
             description = room.description,
+            token = room.token ?: "",
             expired = room.expired,
+            private = room.private ?: false,
             usernameOwner = room.user?.username ?: "unknown",
             fullNameOwner = room.user?.fullName ?: "unknown",
             questionSize = room.questions.size,
             participantSize = room.participants.size,
+            impressions = room.impressions
         )
     }
 

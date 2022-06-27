@@ -14,6 +14,7 @@ interface IUserController {
     fun deleteUser(id: String): WebResponse<String>
     fun listUser(page: Int, size: Int): WebResponse<List<Response.Complete>>
     fun activelyParticipants(page: Int, size: Int): WebResponse<List<Response.Censored>>
+    fun searchUser(nameOrUsername: String, page: Int, size: Int): WebResponse<List<Response.Censored>>
 
     fun signInUser(loginRequest: LoginRequest): WebResponse<Response.Complete>
 }

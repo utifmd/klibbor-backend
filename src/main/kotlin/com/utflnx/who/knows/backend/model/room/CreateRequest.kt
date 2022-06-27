@@ -21,6 +21,12 @@ data class CreateRequest(
     @field:NotBlank
     val description: String?,
 
+    @field:NotBlank
+    val token: String?,
+
     @field:NotNull
-    val expired: Boolean?
+    val expired: Boolean?,
+
+    @field:NotNull
+    val private: Boolean?,
 )

@@ -88,4 +88,14 @@ class NotificationService(
             .sortedByDescending { it.createdAt }
             .sortedBy { it.seen }
     }
+
+
+    override fun list(recipientId: String, roomId: String, listRequest: ListRequest): List<Response> {
+        val notifications = reposNotification
+            .findAllByRecipientOrRoomId(recipientId, roomId, PageRequest.of(listRequest.page, listRequest.size))
+
+        return notifications.map(mapper::toResponse)
+            .sortedByDescending { it.createdAt }
+            .sortedBy { it.seen }
+    }
 }

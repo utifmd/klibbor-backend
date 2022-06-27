@@ -41,6 +41,10 @@ data class User(
     @Column(name = "updatedAt")
     var updatedAt: Date?,
 
+    @Column(name = "tokens")
+    @ElementCollection
+    var tokens: List<String>,
+
     //@JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
     @JoinColumn(name = "userId")

@@ -12,4 +12,5 @@ interface IRoomService {
     fun delete(id: String)
     fun list(userId: String, listRequest: ListRequest): List<Response.Complete>
     fun list(listRequest: ListRequest): List<Response.Censored>
+    fun search(query: String, listRequest: ListRequest): List<Response.Censored>
 }

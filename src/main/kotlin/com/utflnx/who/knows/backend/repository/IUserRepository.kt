@@ -24,7 +24,14 @@ interface IUserRepository: JpaRepository<User, String> {
     @Query("SELECT *\n" +
             "FROM users\n" +
             "WHERE (SELECT COUNT(participants.user_id) FROM participants WHERE participants.user_id = users.user_id) > 0\n" +
-            "ORDER BY (SELECT COUNT(participants.user_id) FROM participants WHERE participants.user_id = users.user_id) DESC",
+            "ORDER BY (SELECT COUNT(participants.user_id) FROM participants WHERE participants.user_id = users.user_id AND participants.expired) DESC",
         nativeQuery = true)
     fun findActivelyParticipants(pageable: Pageable): Page<User>
+
+    @Query("SELECT usr FROM User usr WHERE " +
+            "LOWER(usr.username) LIKE %:payload% OR " +
+            "LOWER(usr.fullName) LIKE %:payload% " +
+            "ORDER BY usr.username")
+    fun searchUserByUsernameOrFullName(
+        @Param("payload") query: String, pageable: Pageable): Page<User>
 }

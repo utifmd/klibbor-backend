@@ -16,6 +16,13 @@ interface IRoomRepository: JpaRepository<Room, String> {
     fun findAllByUserId(
         @Param("userId") userId: String, pageable: Pageable): Page<Room>
 
+    @Query("SELECT rm FROM Room rm WHERE " +
+            "LOWER(rm.title) LIKE CONCAT('%',:payload,'%') OR " +
+            "LOWER(rm.description) LIKE CONCAT('%',:payload,'%') " +
+            "ORDER BY rm.title")
+    fun searchRoomByTitleAndDesc(
+        @Param("payload") query: String, pageable: Pageable): Page<Room>
+
    /* @Query("SELECT rm FROM Room rm ORDER BY rm.createdAt ASC")
     fun findAllBy(
         @Param("recipientId") recipientId: String, pageable: Pageable

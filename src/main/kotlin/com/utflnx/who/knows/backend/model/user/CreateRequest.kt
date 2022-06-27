@@ -1,6 +1,7 @@
 package com.utflnx.who.knows.backend.model.user
 
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
 data class CreateRequest(
@@ -18,6 +19,9 @@ data class CreateRequest(
 
     @field:NotNull
     val phone: String?,
+
+    @field:NotEmpty
+    val tokens: List<String>?,
 
     @field:NotBlank //@field:NotNull @field:Min(value = 0)
     val username: String?,

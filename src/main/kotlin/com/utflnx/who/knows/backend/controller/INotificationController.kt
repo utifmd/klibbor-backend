@@ -13,4 +13,5 @@ interface INotificationController {
     fun updateNotification(id: String, updateRequest: UpdateRequest): WebResponse<Response>
     fun listNotification(page: Int, size: Int): WebResponse<List<Response>>
     fun listNotification(recipientId: String, page: Int, size: Int): WebResponse<List<Response>>
+    fun listNotification(recipientId: String, roomId: String, page: Int, size: Int): WebResponse<List<Response>>
 }

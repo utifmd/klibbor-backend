@@ -10,12 +10,21 @@ data class UpdateRequest(
     @field:Min(value = 0)
     val minute: Int?,
 
+    @field:NotNull
     @field:NotBlank
     val title: String?,
 
+    @field:NotNull
     @field:NotBlank
     val description: String?,
 
     @field:NotNull
-    val expired: Boolean?
+    @field:NotBlank
+    val token: String?,
+
+    @field:NotNull
+    val expired: Boolean?,
+
+    @field:NotNull
+    val private: Boolean?
 )

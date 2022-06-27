@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class ResultDataMapper(val validator: IDataValidator): IResultDataMapper {
+class ResultDataMapper(
+    private val validator: IDataValidator): IResultDataMapper {
     override fun toResult(createRequest: CreateRequest): Result {
         validate(createRequest)
 
