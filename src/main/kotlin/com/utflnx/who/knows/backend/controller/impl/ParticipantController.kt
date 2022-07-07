@@ -37,8 +37,8 @@ class ParticipantController(val service: IParticipantService): IParticipantContr
 
     @GetMapping(value = ["/api/participants/owner/with_args"], produces = ["application/json"])
     override fun readParticipant(
-        @PathVariable("userId") userId: String,
-        @PathVariable("roomId") roomId: String): WebResponse<Response> {
+        @RequestParam(value = "userId", defaultValue = "") userId: String,
+        @RequestParam(value = "roomId", defaultValue = "") roomId: String): WebResponse<Response> {
         val response = service.read(userId, roomId)
 
         return WebResponse(

@@ -8,10 +8,15 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 
 interface IParticipantRepository: JpaRepository<Participant, String> {
-    @Query("SELECT ppn FROM Participant ppn WHERE ppn.roomId = :roomId AND ppn.userId = :userId")
+    @Query("SELECT * FROM participants WHERE participants.room_id = :roomId AND participants.user_id = :userId ORDER BY participants.created_at DESC LIMIT 1", nativeQuery = true)
     fun findByRoomIdAndUserIdOrNull(
         @Param("roomId") roomId: String,
         @Param("userId") userId: String): Participant?
+
+    /*@Query("SELECT ppn FROM Participant ppn WHERE ppn.roomId = :roomId AND ppn.userId = :userId")
+    fun findByRoomIdAndUserIdOrNull(
+        @Param("roomId") roomId: String,
+        @Param("userId") userId: String): Participant?*/
 
     /*@Query(
         "SELECT ppn\n" +

@@ -34,4 +34,8 @@ interface IUserRepository: JpaRepository<User, String> {
             "ORDER BY usr.username")
     fun searchUserByUsernameOrFullName(
         @Param("payload") query: String, pageable: Pageable): Page<User>
+
+    @Query("SELECT COUNT(usr) FROM User usr WHERE usr.username = :username")
+    fun countUserNameUsage(
+        @Param("username") username: String): Int
 }

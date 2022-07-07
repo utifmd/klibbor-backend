@@ -10,6 +10,7 @@ import com.utflnx.who.knows.backend.model.user.UpdateRequest
 interface IUserService {
     fun create(createRequest: CreateRequest): Response.Complete
     fun read(userId: String): Response.Complete
+    fun count(username: String): Int
     fun update(userId: String, updateRequest: UpdateRequest): Response.Complete
     fun update(userId: String, user: User): Response.Complete
     fun delete(userId: String)

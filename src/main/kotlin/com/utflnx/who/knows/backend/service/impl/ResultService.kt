@@ -49,11 +49,10 @@ class ResultService(
     }
 
     override fun read(roomId: String, userId: String): Response {
-        reposRoom.findByIdOrNull(roomId) ?: throw DataNotFoundException("roomId")
-        reposUser.findByIdOrNull(userId) ?: throw DataNotFoundException("userId")
+        /*reposRoom.findByIdOrNull(roomId) ?: throw DataNotFoundException("roomId")
+        reposUser.findByIdOrNull(userId) ?: throw DataNotFoundException("userId")*/
 
         val result = reposResult.findByRoomIdAndUserIdOrNull(roomId, userId) ?: throw NotFoundException()
-
         return mapper.toResponse(result)
     }
 

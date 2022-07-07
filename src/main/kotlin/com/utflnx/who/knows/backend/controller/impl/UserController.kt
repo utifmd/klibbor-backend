@@ -15,7 +15,7 @@ class UserController(val service: IUserService): IUserController {
 
     @PostMapping(value = ["/api/users"], produces = ["application/json"], consumes = ["application/json"])
     override fun createUser(
-        @RequestBody createRequest: CreateRequest ): WebResponse<Response.Complete> {
+        @RequestBody createRequest: CreateRequest): WebResponse<Response.Complete> {
         val response = service.create(createRequest)
 
         return WebResponse(
@@ -24,7 +24,6 @@ class UserController(val service: IUserService): IUserController {
             data = response
         )
     }
-
     @GetMapping(value = ["/api/users/{userId}"], produces = ["application/json"])
     override fun readUser(
         @PathVariable("userId") readRequest: String): WebResponse<Response.Complete> {
@@ -34,6 +33,16 @@ class UserController(val service: IUserService): IUserController {
             code = 200,
             status = "OK",
             data = response
+        )
+    }
+    @GetMapping(value = ["/api/users/count/{username}"], produces = ["application/json"])
+    override fun count(
+        @PathVariable("username") username: String): WebResponse<Int> {
+        val count = service.count(username)
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = count
         )
     }
 

@@ -27,9 +27,8 @@ class ImpressionService(
     override fun create(createRequest: CreateRequest): Response {
         mapper.validate(createRequest)
 
-        repository.findImpressionByUserIdAndPostId(
-            createRequest.userId, createRequest.postId
-        ) ?: throw DataExistException()
+        val isExist = repository.findImpressionByUserIdAndPostId(createRequest.userId, createRequest.postId)
+        if (isExist != null) throw DataExistException()
 
         val data = repository.save(mapper.toImpression(createRequest))
         return mapper.toResponse(data)

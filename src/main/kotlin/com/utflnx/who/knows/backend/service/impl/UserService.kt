@@ -9,10 +9,7 @@ import com.utflnx.who.knows.backend.model.user.Response
 import com.utflnx.who.knows.backend.model.user.UpdateRequest
 import com.utflnx.who.knows.backend.repository.IUserRepository
 import com.utflnx.who.knows.backend.service.IUserService
-import com.utflnx.who.knows.backend.validation.InvalidEmailException
-import com.utflnx.who.knows.backend.validation.InvalidPasswordException
-import com.utflnx.who.knows.backend.validation.NotFoundException
-import com.utflnx.who.knows.backend.validation.DataExistException
+import com.utflnx.who.knows.backend.validation.*
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -45,15 +42,14 @@ class UserService(
 
         return mapper.toCompleteResponse(user)
     }
-
     override fun update(userId: String, updateRequest: UpdateRequest): Response.Complete {
-        val user = repository.findByIdOrNull(userId) ?: throw NotFoundException()
-        val updatedUser = mapper.toUser(user, updateRequest)
+        val currentUser = repository.findByIdOrNull(userId) ?: throw NotFoundException()
+        val updatedUser = mapper.toUser(currentUser, updateRequest)
 
         repository.save(updatedUser)
-
         return mapper.toCompleteResponse(updatedUser)
     }
+    override fun count(username: String): Int = repository.countUserNameUsage(username)
 
     override fun update(userId: String, user: User): Response.Complete {
         repository.findByIdOrNull(userId) ?: throw NotFoundException()
@@ -61,14 +57,12 @@ class UserService(
         repository.save(user)
         return mapper.toCompleteResponse(user)
     }
-
     override fun delete(userId: String) {
         if(repository.findByIdOrNull(userId) != null)
             repository.deleteById(userId)
 
         else throw NotFoundException()
     }
-
     override fun list(listRequest: ListRequest): List<Response.Complete> {
         mapper.validate(listRequest)
         val page = repository
@@ -77,21 +71,19 @@ class UserService(
 
         return page.get().collect(Collectors.toList())
     }
-
     override fun signIn(loginRequest: LoginRequest): Response.Complete {
         mapper.validate(loginRequest)
 
-        val mutableTokens = mutableListOf<String>()
         val current = repository.findByEmailOrPhoneOrUnameOrNull(loginRequest.payload)
             ?: throw InvalidEmailException()
 
         if (current.password != loginRequest.password)
             throw InvalidPasswordException()
 
-        mutableTokens.add(loginRequest.token)
-        mutableTokens.addAll(current.tokens)
+        val tokens = current.tokens.toMutableList()
+        tokens.add(0, loginRequest.token)
 
-        val freshTokens = mutableTokens.distinct()
+        val freshTokens = tokens.distinct()
             .filterIndexed { i, _-> i in 0..2 }
 
         if (freshTokens.isNotEmpty())
@@ -99,7 +91,6 @@ class UserService(
 
         return mapper.toCompleteResponse(current)
     }
-
     override fun search(query: String, listRequest: ListRequest): List<Response.Censored> {
         mapper.validate(query)
         mapper.validate(listRequest)

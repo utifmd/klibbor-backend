@@ -10,6 +10,7 @@ import com.utflnx.who.knows.backend.model.user.UpdateRequest
 interface IUserController {
     fun createUser(createRequest: CreateRequest): WebResponse<Response.Complete>
     fun readUser(readRequest: String): WebResponse<Response.Complete>
+    fun count(username: String): WebResponse<Int>
     fun updateUser(id: String, updateRequest: UpdateRequest): WebResponse<Response.Complete>
     fun deleteUser(id: String): WebResponse<String>
     fun listUser(page: Int, size: Int): WebResponse<List<Response.Complete>>
