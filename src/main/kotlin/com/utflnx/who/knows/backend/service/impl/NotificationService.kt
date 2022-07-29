@@ -29,7 +29,7 @@ class NotificationService(
     private val mapper: INotificationDataMapper): INotificationService {
 
     override fun create(createRequest: CreateRequest): Response {
-        val notification = mapper.toResult(createRequest)
+        val notification = mapper.toNotification(createRequest)
 
         if (reposNotification.existsById(notification.notificationId))
             throw DataExistException()
@@ -54,7 +54,7 @@ class NotificationService(
 
     override fun update(id: String, updateRequest: UpdateRequest): Response {
         val current = reposNotification.findByIdOrNull(id) ?: throw NotFoundException()
-        val updatedRequest = mapper.toResult(current, updateRequest)
+        val updatedRequest = mapper.toNotification(current, updateRequest)
 
         reposNotification.save(updatedRequest)
 
@@ -82,20 +82,16 @@ class NotificationService(
 
     override fun list(recipientId: String, listRequest: ListRequest): List<Response> {
         val notifications = reposNotification
-            .findAllByRecipientId(recipientId, PageRequest.of(listRequest.page, listRequest.size))
+            .findAllByRecipientIds(recipientId, PageRequest.of(listRequest.page, listRequest.size))
 
-        return notifications.map(mapper::toResponse)
-            .sortedByDescending { it.createdAt }
-            .sortedBy { it.seen }
+        return notifications.get().collect(Collectors.toList()).map(mapper::toResponse)
     }
-
 
     override fun list(recipientId: String, roomId: String, listRequest: ListRequest): List<Response> {
         val notifications = reposNotification
             .findAllByRecipientOrRoomId(recipientId, roomId, PageRequest.of(listRequest.page, listRequest.size))
 
         return notifications.map(mapper::toResponse)
-            .sortedByDescending { it.createdAt }
             .sortedBy { it.seen }
     }
 }

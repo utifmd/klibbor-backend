@@ -15,11 +15,11 @@ sealed class Response {
         val token: String,
         val expired: Boolean,
         val private: Boolean,
-        val usernameOwner: String,
-        val fullNameOwner: String,
+        val user: com.utflnx.who.knows.backend.model.user.Response.Censored?,
         val impressions: List<Impression>,
         val questionSize: Int,
-        val participantSize: Int): Response()
+        val participantSize: Int,
+        val participantIds: List<String>): Response()
 
     data class Complete(
         val roomId: String,

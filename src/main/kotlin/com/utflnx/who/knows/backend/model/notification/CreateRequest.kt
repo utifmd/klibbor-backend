@@ -17,6 +17,9 @@ data class CreateRequest(
     @field:NotBlank
     val recipientId: String,
 
+    @field:NotNull
+    val recipientIds: List<String>?,
+
     @field:NotBlank
     val roomId: String,
 

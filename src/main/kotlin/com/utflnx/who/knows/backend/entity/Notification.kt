@@ -29,6 +29,10 @@ data class Notification(
     @Column(name = "recipientId")
     val recipientId: String,
 
+    @ElementCollection
+    @Column(name = "recipientIds")
+    val recipientIds: List<String>,
+
     @Column(name = "createdAt")
     val createdAt: Date,
 

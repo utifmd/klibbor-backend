@@ -23,6 +23,28 @@ interface INotificationRepository: JpaRepository<Notification, String>{
     fun findAllByRecipientId(
         @Param("recipientId") recipientId: String, pageable: Pageable): Page<Notification>
 
+    @Query("SELECT ntf.* FROM notifications ntf " +
+            "LEFT OUTER JOIN notification_recipient_ids rcp " +
+            "ON ntf.notification_id = rcp.notification_notification_id " +
+            "WHERE ntf.recipient_id = :recipientId " +
+            "OR rcp.recipient_ids = :recipientId " +
+            "ORDER BY ntf.created_at DESC",
+        nativeQuery = true
+    )
+    fun findAllByRecipientIds(
+        @Param("recipientId") recipientId: String, pageable: Pageable): Page<Notification>
+
+    /*@Query("SELECT ntf.* FROM notifications ntf " +
+            "INNER JOIN notification_recipient_ids rcp " +
+            "ON ntf.notification_id = rcp.notification_notification_id " +
+            "WHERE ntf.recipient_id = :recipientId " +
+            "OR rcp.recipient_ids = :recipientId " +
+            "ORDER BY ntf.created_at DESC",
+        nativeQuery = true
+    )
+    fun findAllByRecipientIds(
+        @Param("recipientId") recipientId: String, pageable: Pageable): Page<Notification>*/
+
     @Query("SELECT ntf FROM Notification ntf WHERE ntf.roomId = :roomId AND ntf.userId = :userId")
     fun findByRoomIdAndUserIdOrNull(
         @Param("roomId") roomId: String,

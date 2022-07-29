@@ -89,10 +89,10 @@ class UserDataMapper(
             token = room.token ?: "",
             expired = room.expired,
             private = room.private ?: false,
-            usernameOwner = room.user?.username ?: "unknown",
-            fullNameOwner = room.user?.fullName ?: "unknown",
+            user = room.user?.let(::toCensoredResponse),
             questionSize = room.questions.size,
             participantSize = room.participants.size,
+            participantIds = room.participants.map { it.userId },
             impressions = room.impressions
         )
     }

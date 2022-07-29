@@ -14,6 +14,7 @@ data class Response(
     val event: String,
     val seen: Boolean,
     val recipientId: String,
+    val recipientIds: List<String>,
     val createdAt: Date,
     val updatedAt: Date?,
     val sender: User?

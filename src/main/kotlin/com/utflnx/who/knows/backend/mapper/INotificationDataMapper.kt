@@ -10,8 +10,8 @@ import com.utflnx.who.knows.backend.model.notification.UpdateRequest
  * who-knows-backend by utifmd
  **/
 interface INotificationDataMapper {
-    fun toResult(createRequest: CreateRequest): Notification
-    fun toResult(current: Notification, updateRequest: UpdateRequest): Notification
+    fun toNotification(createRequest: CreateRequest): Notification
+    fun toNotification(current: Notification, updateRequest: UpdateRequest): Notification
     fun toResponse(notification: Notification): Response
     fun validate(any: Any)
 }

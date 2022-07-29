@@ -19,7 +19,6 @@ data class UpdateRequest(
     val description: String?,
 
     @field:NotNull
-    @field:NotBlank
     val token: String?,
 
     @field:NotNull

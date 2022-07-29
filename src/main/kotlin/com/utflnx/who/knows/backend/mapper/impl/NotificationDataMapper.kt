@@ -17,7 +17,7 @@ import java.util.*
 class NotificationDataMapper(
     private val validator: IDataValidator): INotificationDataMapper {
 
-    override fun toResult(createRequest: CreateRequest): Notification {
+    override fun toNotification(createRequest: CreateRequest): Notification {
         validate(createRequest)
 
         return Notification(
@@ -27,13 +27,14 @@ class NotificationDataMapper(
             event = createRequest.event,
             seen = createRequest.seen,
             recipientId = createRequest.recipientId,
+            recipientIds = createRequest.recipientIds ?: emptyList(),
             createdAt = Date(),
             updatedAt = null,
             sender = null
         )
     }
 
-    override fun toResult(current: Notification, updateRequest: UpdateRequest): Notification {
+    override fun toNotification(current: Notification, updateRequest: UpdateRequest): Notification {
         validator.validate(updateRequest)
 
         return current.apply {
@@ -50,6 +51,7 @@ class NotificationDataMapper(
             event = notification.event,
             seen = notification.seen,
             recipientId = notification.recipientId,
+            recipientIds = notification.recipientIds,
             createdAt = notification.createdAt,
             updatedAt = notification.updatedAt,
             sender = notification.sender

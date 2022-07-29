@@ -61,7 +61,7 @@ class QuizService(
         mapper.validate(listRequest)
 
         val questions = reposQuiz.findAll(PageRequest.of(listRequest.page, listRequest.size))
-        //val questions = pagedQuestions.get().collect(Collectors.toList())
+        //val questions = reposQuiz.findAllByOption("Omesh")
 
         return questions.map(mapper::toResponse).shuffled()
     }
