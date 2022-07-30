@@ -18,9 +18,6 @@ class ApiKeyInterceptor(
         val url = (request as ServletWebRequest).request.requestURL
         val isFiles = url.contains("files/")
 
-//        println(files)
-//        println(isFiles)
-
         if (!isFiles){
             val xApiKey = request.getHeader("X-Api-Key") ?: throw UnauthorizedException()
 

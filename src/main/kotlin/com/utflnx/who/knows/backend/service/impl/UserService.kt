@@ -30,7 +30,10 @@ class UserService(
         if (repository.findByEmailOrNull(user.email) != null)
             throw DataExistException()
 
-        user.apply { createdAt = Date() }
+        if (repository.findByUsernameOrNull(user.username) != null) {
+            user.username = user.username.plus(Date().time)
+        }
+        user.createdAt = Date()
 
         repository.save(user)
 

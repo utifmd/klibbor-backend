@@ -14,6 +14,10 @@ interface IUserRepository: JpaRepository<User, String> {
     fun findByEmailOrNull(
         @Param("email") email: String): User?
 
+    @Query("SELECT usr FROM User usr WHERE usr.username = :username")
+    fun findByUsernameOrNull(
+        @Param("username") username: String): User?
+
     @Query("SELECT usr FROM User usr WHERE " +
             "usr.email = :payload OR " +
             "usr.phone = :payload OR " +
