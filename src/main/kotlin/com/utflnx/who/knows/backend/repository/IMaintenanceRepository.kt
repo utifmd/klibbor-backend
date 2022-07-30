@@ -8,7 +8,4 @@ import org.springframework.data.jpa.repository.Query
  * Sat, 30 Jul 2022
  * who-knows-backend by utifmd
  **/
-interface IMaintenanceRepository: JpaRepository<Maintenance, String>/*{
-    @Query("SELECT mtn FROM Maintenance mtn WHERE mtn.active")
-    fun findLatestByActiveOrNull(): Maintenance?
-}*/
+interface IMaintenanceRepository: JpaRepository<Maintenance, String>
