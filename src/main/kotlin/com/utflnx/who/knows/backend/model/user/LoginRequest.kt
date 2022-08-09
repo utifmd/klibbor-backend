@@ -1,6 +1,7 @@
 package com.utflnx.who.knows.backend.model.user
 
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 data class LoginRequest(
 //    val username: String,
@@ -10,6 +11,6 @@ data class LoginRequest(
     @field:NotBlank
     val password: String,
 
-    @field:NotBlank
-    val token: String,
+    @field:NotNull
+    val token: String?,
 )

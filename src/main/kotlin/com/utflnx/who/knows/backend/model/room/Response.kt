@@ -19,6 +19,7 @@ sealed class Response {
         val impressions: List<Impression>,
         val questionSize: Int,
         val participantSize: Int,
+        val participantTokens: List<String>,
         val participantIds: List<String>): Response()
 
     data class Complete(

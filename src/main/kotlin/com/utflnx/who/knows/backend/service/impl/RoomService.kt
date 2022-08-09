@@ -88,5 +88,8 @@ class RoomService(
         val paged = reposRoom.searchRoomByTitleAndDesc(query, PageRequest.of(listRequest.page, listRequest.size))
         return paged.stream().collect(Collectors.toList())
             .map(mapper::toCensoredResponse)
+            .onEach {
+                println("tokenSize "+ it.participantTokens.size)
+            }
     }
 }

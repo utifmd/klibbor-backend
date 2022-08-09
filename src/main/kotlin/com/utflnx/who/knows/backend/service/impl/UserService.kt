@@ -84,12 +84,12 @@ class UserService(
             throw InvalidPasswordException()
 
         val tokens = current.tokens.toMutableList()
-        tokens.add(0, loginRequest.token)
+        loginRequest.token?.let{ tokens.add(0, it) }
 
         val freshTokens = tokens.distinct()
             .filterIndexed { i, _-> i in 0..2 }
 
-        if (freshTokens.isNotEmpty())
+        if (!loginRequest.token.isNullOrBlank() && freshTokens.isNotEmpty())
             update(current.userId, current.copy(tokens = freshTokens))
 
         return mapper.toCompleteResponse(current)

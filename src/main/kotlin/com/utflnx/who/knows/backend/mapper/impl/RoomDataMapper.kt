@@ -81,6 +81,7 @@ class RoomDataMapper(
             private = room.private ?: false,
             questionSize = room.questions.size,
             participantSize = room.participants.size,
+            participantTokens = room.participants.mapNotNull{ it.user?.tokens?.getOrNull(0) },
             participantIds = room.participants.map{ it.userId },
             impressions = room.impressions,
             user = room.user?.let(userMapper::toCensoredResponse)

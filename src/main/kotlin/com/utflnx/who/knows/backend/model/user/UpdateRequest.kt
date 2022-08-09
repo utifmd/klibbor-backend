@@ -10,14 +10,12 @@ data class UpdateRequest(
     @field:NotNull
     val email: String?,
 
-    @field:NotNull //@field:NotNull @field:Min(value = 0)
-    //@field:Length(min = 3, max = 25)
+    @field:NotNull //@field:NotNull @field:Min(value = 0) //@field:Length(min = 3, max = 25)
     val phone: String?,
 
     @field:NotNull
     @field:Length(min = 4, max = 25)
     val username: String?,
-
     //@field:NotEmpty
     @field:NotNull
     val tokens: List<String>?,

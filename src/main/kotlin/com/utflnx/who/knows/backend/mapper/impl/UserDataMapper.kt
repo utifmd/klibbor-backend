@@ -93,6 +93,7 @@ class UserDataMapper(
             questionSize = room.questions.size,
             participantSize = room.participants.size,
             participantIds = room.participants.map { it.userId },
+            participantTokens = room.participants.mapNotNull{ it.user?.tokens?.getOrNull(0) },
             impressions = room.impressions
         )
     }
