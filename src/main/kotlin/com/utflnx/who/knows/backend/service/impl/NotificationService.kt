@@ -1,5 +1,6 @@
 package com.utflnx.who.knows.backend.service.impl
 
+import com.utflnx.who.knows.backend.entity.Notification
 import com.utflnx.who.knows.backend.mapper.INotificationDataMapper
 import com.utflnx.who.knows.backend.model.ListRequest
 import com.utflnx.who.knows.backend.model.notification.CreateRequest
@@ -81,6 +82,7 @@ class NotificationService(
     }
 
     override fun list(recipientId: String, listRequest: ListRequest): List<Response> {
+
         val notifications = reposNotification
             .findAllByRecipientIds(recipientId, PageRequest.of(listRequest.page, listRequest.size))
 
